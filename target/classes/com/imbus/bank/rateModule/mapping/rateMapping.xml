@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imbus.bank.rateModule.dao.RateDao">
+    <insert id="addPersonalDepositRate">
+        INSERT INTO tb_personal_rate
+        <set>
+            month = #{depositRateEntity.month},
+            rate = #{depositRateEntity.rate}
+        </set>
+    </insert>
+
+    <insert id="addPublicDepositRate">
+        INSERT INTO tb_public_rate
+        <set>
+            month = #{depositRateEntity.month},
+            rate = #{depositRateEntity.rate}
+        </set>
+    </insert>
+
+    <insert id="addPersonalLoanRate">
+        INSERT INTO tb_loan_personal_rate
+        <set>
+            startMonth = #{loanRateEntity.startMonth},
+            endMonth = #{loanRateEntity.endMonth},
+            rate = #{loanRateEntity.rate}
+        </set>
+    </insert>
+
+    <insert id="addPublicLoanRate">
+        INSERT INTO tb_loan_public_rate
+        <set>
+            startMonth = #{loanRateEntity.startMonth},
+            endMonth = #{loanRateEntity.endMonth},
+            rate = #{loanRateEntity.rate}
+        </set>
+    </insert>
+
+    <update id="editPersonalDepositRate">
+        UPDATE tb_personal_rate
+        <set>
+            month = #{depositRateEntity.month},
+            rate = #{depositRateEntity.rate}
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+    <update id="editPublicDepositRate">
+        UPDATE tb_public_rate
+        <set>
+            month = #{depositRateEntity.month},
+            rate = #{depositRateEntity.rate}
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+    <delete id="deletePersonalDepositRate">
+        DELETE FROM tb_personal_rate
+        <where>
+            id = #{id}
+        </where>
+    </delete>
+
+    <delete id="deletePublicDepositRate">
+        DELETE FROM tb_public_rate
+        <where>
+            id = #{id}
+        </where>
+    </delete>
+
+    <delete id="deletePersonalLoanRate">
+        DELETE FROM tb_loan_personal_rate
+        <where>
+            id = #{id}
+        </where>
+    </delete>
+
+    <delete id="deletePublicLoanRate">
+        DELETE FROM tb_loan_public_rate
+        <where>
+            id = #{id}
+        </where>
+    </delete>
+
+    <select id="getPersonalDepositRate" resultType="com.imbus.bank.rateModule.bo.DepositRateBo">
+        SELECT * FROM tb_personal_rate
+    </select>
+
+    <select id="getPublicDepositRate" resultType="com.imbus.bank.rateModule.bo.DepositRateBo">
+        SELECT * FROM tb_public_rate
+    </select>
+
+    <select id="getPersonalLoanRate" resultType="com.imbus.bank.rateModule.bo.LoanRateBo">
+        SELECT * FROM tb_loan_personal_rate
+    </select>
+
+    <select id="getPublicLoanRate" resultType="com.imbus.bank.rateModule.bo.LoanRateBo">
+        SELECT * FROM tb_loan_public_rate
+    </select>
+
+</mapper>

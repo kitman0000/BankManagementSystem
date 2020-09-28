@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imbus.bank.common.dao.BankAccountDao">
+
+    <!-- 加入发行的卡号顺位 -->
+    <insert id="insertAutoNumber">
+        INSERT INTO tb_account_number
+        <set>
+            binCode = #{binCode},
+            areaCode = #{areaCode},
+            bankCode = #{bankCode},
+            autoNumber = #{autoNumber}
+        </set>
+    </insert>
+
+    <!-- 获取最后发行的卡号顺位号 -->
+    <select id="getLastAutoNumber" resultType="java.lang.String">
+        SELECT autoNumber FROM tb_account_number
+        <where>
+            binCode = #{binCode}
+            AND areaCode = #{areaCode}
+            AND bankCode = #{bankCode}
+        </where>
+
+        ORDER BY id DESC LIMIT 1
+    </select>
+</mapper>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imbus.bank.roleModule.dao.PermissionDao">
+
+    <!-- 获取角色权限 -->
+    <select id="getRolePermission" resultType="com.imbus.bank.roleModule.bo.PermissionBo">
+        SELECT permissionID ,tb_permission.permissionName,info FROM tb_role_permission,tb_permission
+        <where>
+            roleID = #{roleID}
+        </where>
+        AND permissionID = tb_permission.id
+    </select>
+
+    <!-- 获取所有权限 -->
+    <select id="getAllPermission" resultType="com.imbus.bank.roleModule.bo.PermissionBo">
+        SELECT id as permissionID,permissionName,info FROM tb_permission
+    </select>
+</mapper>

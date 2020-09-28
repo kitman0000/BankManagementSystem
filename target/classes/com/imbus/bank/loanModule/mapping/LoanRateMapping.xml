@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imbus.bank.loanModule.dao.LoanRateDao">
+
+    <!-- 获取个人贷款利率 -->
+    <select id="getPersonalRate" resultType="java.math.BigDecimal">
+        SELECT rate FROM tb_loan_personal_rate
+        <where>
+            startMonth &lt;= #{month}
+            AND endMonth > #{month}
+        </where>
+    </select>
+
+    <!-- 获取企业贷款利率 -->
+    <select id="getPublicRate" resultType="java.math.BigDecimal">
+        SELECT rate FROM tb_loan_public_rate
+        <where>
+            startMonth &lt;= #{month}
+            AND endMonth > #{month}
+        </where>
+    </select>
+</mapper>

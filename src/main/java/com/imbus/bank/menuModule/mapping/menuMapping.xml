@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imbus.bank.menuModule.dao.MenuDao">
+
+    <!-- 设置权限菜单 -->
+    <update id="updatePermissionMenu">
+        UPDATE tb_menu
+        <set>
+            title = #{menu.menuTitle},
+            href = #{menu.menuHref}
+        </set>
+        <where>
+            id = #{menu.menuID}
+        </where>
+    </update>
+
+    <!-- 获取当前菜单设置 -->
+    <select id="getMenuSetting" resultType="com.imbus.bank.menuModule.bo.MenuBo">
+        SELECT tb_menu.id as menuID,tb_menu.title as menuTitle,tb_menu.permissionID,tb_menu.href as menuHref,
+        tb_permission.permissionName,tb_permission.info as permissionInfo
+        FROM tb_menu,tb_permission where tb_menu.permissionID = tb_permission.id;
+    </select>
+
+    <!-- 获取某权限的菜单 -->
+    <select id="getPermissionMenu" resultType="com.imbus.bank.menuModule.bo.MenuBo">
+        SELECT id as menuID,title as menuTitle,href as menuHref
+        FROM tb_menu
+        <where>
+            permissionID = #{permissionID}
+        </where>
+    </select>
+
+    <!-- 获取所有父菜单 -->
+    <select id="getAllParentMenu" resultType="com.imbus.bank.menuModule.bo.ParentMenuBo">
+        SELECT * FROM tb_parentmenu
+    </select>
+
+    <!-- 获取某父菜单的所有菜单 -->
+    <select id="getMenuByParent" resultType="com.imbus.bank.menuModule.bo.MenuBo">
+        SELECT id as menuID,title as menuTitle,permissionID,href as menuHref
+        FROM tb_menu
+        <where>
+            permissionID = #{permissionID}
+        </where>
+    </select>
+</mapper>

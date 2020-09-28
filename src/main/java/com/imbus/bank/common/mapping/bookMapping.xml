@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imbus.bank.common.dao.BookDao">
+
+    <!-- 新增一笔现金账单 -->
+    <insert id="addCashBill">
+        INSERT INTO tb_cash_book
+        <set>
+            amount = #{amount},
+            target = #{target},
+            remark = #{remark},
+            agencyID = #{agencyID},
+            tellerID = #{tellerID},
+            trunkID = #{trunkID},
+            cashObject = #{cashObject}
+        </set>
+    </insert>
+
+    <!-- 新增一笔资金账单 -->
+    <insert id="addFundBill">
+        INSERT INTO tb_fund_book
+        <set>
+            amount = #{amount},
+            target = #{target},
+            remark = #{remark},
+            agencyID = #{agencyID},
+            tellerID = #{tellerID},
+            tag = #{tag}
+        </set>
+    </insert>
+
+    <!-- 获取资金账单 -->
+    <select id="getFundBookList" resultType="com.imbus.bank.common.bo.BookBo">
+        SELECT * FROM tb_fund_book
+        <where>
+            tag = #{tag}
+            AND
+            transactDatetime >= #{startDate}
+            AND
+            transactDatetime &lt; #{endDate}
+        </where>
+    </select>
+
+    <!-- 获取现金账单 -->
+    <select id="getCashBookList" resultType="com.imbus.bank.common.bo.BookBo">
+        SELECT * FROM tb_cash_book
+        <where>
+            transactDatetime >= #{startDate}
+            AND
+            transactDatetime &lt; #{endDate}
+        </where>
+    </select>
+</mapper>

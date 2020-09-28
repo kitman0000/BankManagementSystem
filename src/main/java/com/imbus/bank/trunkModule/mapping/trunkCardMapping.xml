@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imbus.bank.trunkModule.dao.TrunkCardDao">
+
+    <!-- 添加银行卡到尾箱 -->
+    <insert id="addTrunkCard">
+        INSERT INTO tb_trunk_card
+        <set>
+            account = #{accountID},
+            trunkID = #{trunkID}
+        </set>
+    </insert>
+
+    <!-- 从尾箱移除银行卡 -->
+    <delete id="removeTrunkCard">
+        DELETE FROM tb_trunk_card
+        <where>
+            trunkID = #{trunkID}
+            AND
+            account = #{accountID}
+        </where>
+    </delete>
+
+    <!-- 获取用户的尾箱内的银行卡 -->
+    <select id="getUserTrunkCard" resultType="com.imbus.bank.trunkModule.bo.TrunkCardBo">
+        SELECT * FROM tb_trunk_card
+        <where>
+            trunkID = #{trunkID}
+        </where>
+    </select>
+
+    <!-- 从尾箱查找一张一类银行卡 -->
+    <select id="selectTrunkFirstClassCard" resultType="java.lang.String">
+        SELECT account FROM tb_trunk_card limit 1
+        <where>
+            trunkID = #{trunkID}
+            AND
+            left(account,6) = 611010
+        </where>
+    </select>
+
+    <!-- 从尾箱查找一张二类银行卡 -->
+    <select id="selectTrunkSecondClassCard" resultType="java.lang.String">
+        SELECT account FROM tb_trunk_card limit 1
+        <where>
+            trunkID = #{trunkID}
+            AND
+            left(account,6) = 611011
+        </where>
+    </select>
+</mapper>

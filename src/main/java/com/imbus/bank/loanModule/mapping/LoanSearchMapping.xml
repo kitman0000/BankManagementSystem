@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imbus.bank.loanModule.dao.LoanSearchDao">
+
+    <!-- 获取未还款的贷款 -->
+    <select id="getUnpaidLoanByDate" resultType="java.lang.Integer">
+        SELECT id FROM tb_loan
+        <where>
+            repaymentStatus = 0
+            AND
+            loanDate > #{startScheduledPayment}
+            AND loanDate &lt; #{endScheduledPayment}
+        </where>
+    </select>
+
+    <!-- 获取贷款信息 -->
+    <select id="getLoanDetail" resultType="com.imbus.bank.loanModule.bo.LoanBo">
+        SELECT * FROM tb_loan
+        <where>
+            id = #{id}
+        </where>
+    </select>
+
+    <!-- 获取贷款页数 -->
+    <select id="getLoanPage" resultType="java.lang.Integer">
+        SELECT count(id) FROM tb_loan
+        <where>
+            <include refid="loanCondition"/>
+        </where>
+    </select>
+
+    <!-- 获取贷款列表 -->
+    <select id="getLoanList" resultType="com.imbus.bank.loanModule.bo.LoanBo">
+        SELECT id,account,amount,loanDate,repaymentStatus,scheduledPayment,actualPayment
+        FROM tb_loan
+        <where>
+            <include refid="loanCondition"/>
+
+            <!-- 分页的条件 -->
+            AND id Not In (Select * from (Select id From tb_loan
+            <where>
+                <!-- 筛选条件 -->
+                <include refid="loanCondition"/>
+            </where>
+            Limit #{startRow})as t) Limit #{rowsOnePage}
+            <!-- 分页的条件结束-->
+        </where>
+    </select>
+
+    <!-- 获取账户贷款 -->
+    <select id="getAccountLoanList" resultType="com.imbus.bank.loanModule.bo.LoanBo">
+        SELECT * FROM tb_loan
+        <where>
+            account = #{accountID}
+        </where>
+    </select>
+
+    <sql id="loanCondition">
+        <if test="loanSearchEntity.accountID != ''">
+            account = #{loanSearchEntity.accountID}
+        </if>
+        <if test="loanSearchEntity.repaymentStatus != -1">
+            AND
+            repaymentStatus = #{loanSearchEntity.repaymentStatus}
+        </if>
+    </sql>
+</mapper>

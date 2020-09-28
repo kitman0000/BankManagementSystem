@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--开启SQL调试 -->
+        <settings>
+            <setting name="logImpl" value="STDOUT_LOGGING" />
+        </settings>
+
+
+    <typeAliases>
+        <package name="com.imbus.bank.userModule.bo"/>
+    </typeAliases>
+
+    <mappers>
+        <mapper resource="com/imbus/bank/userModule/mapping/accountMapping.xml"/>
+        <mapper resource="com/imbus/bank/userModule/mapping/userMapping.xml"/>
+        <mapper resource="com/imbus/bank/roleModule/mapping/roleMapping.xml"/>
+        <mapper resource="com/imbus/bank/roleModule/mapping/permissionMapping.xml"/>
+        <mapper resource="com/imbus/bank/menuModule/mapping/menuMapping.xml"/>
+        <mapper resource="com/imbus/bank/emailModule/mapping/emailMapping.xml"/>
+        <mapper resource="com/imbus/bank/agencyModule/mapping/agencyMapping.xml"/>
+        <mapper resource="com/imbus/bank/clientSearchModule/mapping/PrivateClientSearchMapping.xml"/>
+        <mapper resource="com/imbus/bank/clientSearchModule/mapping/PublicClientSearchMapping.xml"/>
+        <mapper resource="com/imbus/bank/publicServiceModule/mapping/publicAccountMapping.xml"/>
+        <mapper resource="com/imbus/bank/publicServiceModule/mapping/publicClientMapping.xml"/>
+        <mapper resource="com/imbus/bank/publicServiceModule/mapping/publicAccountApplyMapping.xml"/>
+        <mapper resource="com/imbus/bank/publicServiceModule/mapping/publicRateMapping.xml"/>
+        <mapper resource="com/imbus/bank/publicServiceModule/mapping/publicTimeDepositMapping.xml"/>
+        <mapper resource="com/imbus/bank/common/mapping/bankAccountMapping.xml"/>
+        <mapper resource="com/imbus/bank/personalServiceModule/mapping/personalAccountMapping.xml"/>
+        <mapper resource="com/imbus/bank/personalServiceModule/mapping/personalClientMapping.xml"/>
+        <mapper resource="com/imbus/bank/personalServiceModule/mapping/personalRateMapping.xml"/>
+        <mapper resource="com/imbus/bank/personalServiceModule/mapping/personalTimeDepositMapping.xml"/>
+        <mapper resource="com/imbus/bank/common/mapping/bookMapping.xml"/>
+        <mapper resource="com/imbus/bank/loanModule/mapping/LoanMapping.xml"/>
+        <mapper resource="com/imbus/bank/loanModule/mapping/LoanRateMapping.xml"/>
+        <mapper resource="com/imbus/bank/loanModule/mapping/LoanSearchMapping.xml"/>
+        <mapper resource="com/imbus/bank/common/mapping/bankConfigMapping.xml"/>
+        <mapper resource="com/imbus/bank/timeDepositModule/mapping/depositMapping.xml"/>
+        <mapper resource="com/imbus/bank/rateModule/mapping/rateMapping.xml"/>
+        <mapper resource="com/imbus/bank/transactionSearchModule/mapping/transactionMapping.xml"/>
+        <mapper resource="com/imbus/bank/trunkModule/mapping/trunkMapping.xml"/>
+        <mapper resource="com/imbus/bank/trunkModule/mapping/trunkCashMapping.xml"/>
+        <mapper resource="com/imbus/bank/trunkModule/mapping/trunkCardMapping.xml"/>
+        <mapper resource="com/imbus/bank/excelModule/mapping/excelOutputMapping.xml"/>
+        <mapper resource="com/imbus/bank/nettingModule/mapping/nettingMapping.xml"/>
+    </mappers>
+
+</configuration>

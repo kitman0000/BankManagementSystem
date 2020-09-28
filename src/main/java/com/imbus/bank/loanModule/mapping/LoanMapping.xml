@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imbus.bank.loanModule.dao.LoanDao">
+
+    <!-- 添加新贷款申请 -->
+    <insert id="addLoanApply">
+        INSERT INTO tb_loan_apply
+        <set>
+            <include refid="LoanSet"/>,
+            month = #{loanEntity.month}
+        </set>
+    </insert>
+
+    <!-- 添加贷款 -->
+    <insert id="addLoan">
+        INSERT INTO tb_loan
+        <set>
+            <include refid="LoanSet"/>
+        </set>
+    </insert>
+
+    <!-- 处理贷款请求 -->
+    <update id="handleLoanApply">
+        UPDATE tb_loan_apply
+        <set>
+            handleStatus = #{result},
+            handleUser = #{handleUser}
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+    <!-- 更新贷款还款状态 -->
+    <update id="updateLoanRepaymentStatus">
+        UPDATE tb_loan
+        <set>
+            repaymentStatus = #{status}
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+    <!-- 获取贷款申请详情 -->
+    <select id="getLoanApplyDetail" resultType="com.imbus.bank.loanModule.bo.LoanApplyBo">
+        SELECT *,account as accountID FROM tb_loan_apply
+        <where>
+            id = #{loanID}
+        </where>
+    </select>
+
+    <!-- 获取贷款总量 -->
+    <select id="getTotalLoan" resultType="java.math.BigDecimal">
+        SELECT sum(amount) FROM tb_loan
+        <where>
+            repaymentStatus = 0
+        </where>
+    </select>
+
+    <sql id="LoanSet">
+        account = #{loanEntity.accountID},
+        amount = #{loanEntity.amount},
+        loanDate = #{loanEntity.loanDate},
+        rate = #{loanEntity.rate},
+        scheduledPayment = #{loanEntity.scheduledPayment},
+        guaranteeType = #{loanEntity.guaranteeType},
+        guaranteeInfo = #{loanEntity.guaranteeInfo},
+        `usage` = #{loanEntity.usage}
+    </sql>
+</mapper>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imbus.bank.nettingModule.dao.NettingDao">
+    <!-- 添加轧账记录 -->
+    <insert id="addNettingResult">
+        INSERT INTO tb_netting
+        <set>
+            netDate = #{netDate},
+            result = #{result},
+            netCount = #{netCount},
+            amount = #{amount},
+            startTime = #{startTime},
+            endTime = #{endTime},
+            sign = #{nettingSign}
+        </set>
+    </insert>
+
+    <!-- 添加轧账警告记录 -->
+    <insert id="addNettingWarning">
+        INSERT INTO tb_netting_warning
+        <set>
+            target = #{target},
+            theoryAmount = #{theoryAmount},
+            actualAmount = #{actualAmount},
+            nettingSign = #{nettingSign}
+        </set>
+    </insert>
+
+    <!-- 获取轧账记录数量 -->
+    <select id="getNettingAmount" resultType="java.lang.Integer">
+        SELECT count(id) FROM tb_netting
+    </select>
+
+    <!-- 获取轧账列表 -->
+    <select id="getNettingList" resultType="com.imbus.bank.nettingModule.bo.NettingBo">
+        SELECT * FROM tb_netting
+        <where>
+            <!-- 分页的条件 -->
+            id Not In (Select * from (Select id From tb_netting
+            Limit #{startRow})as t) Limit #{rowsOnePage}
+            <!-- 分页的条件结束-->
+        </where>
+    </select>
+
+    <!-- 获取轧账警告 -->
+    <select id="getNettingWarning" resultType="com.imbus.bank.nettingModule.bo.NettingWarningBo">
+        SELECT * FROM tb_netting_warning
+        <where>
+            nettingSign = #{nettingSign}
+        </where>
+    </select>
+</mapper>

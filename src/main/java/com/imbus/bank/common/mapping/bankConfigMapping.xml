@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imbus.bank.common.dao.BankConfigDao">
+    <!-- 设置资产端数额 -->
+    <update id="setLastAsset">
+        UPDATE tb_bank_config
+        <set>
+            lastAsset = #{lastAsset}
+        </set>
+    </update>
+
+    <!-- 设置借贷端数额 -->
+    <update id="setLastDebt">
+        UPDATE tb_bank_config
+        <set>
+            lastDebt = #{lastDebt}
+        </set>
+    </update>
+
+    <!-- 设置存款准备金率 -->
+    <update id="setDepositReserveRate">
+        UPDATE tb_bank_config
+        <set>
+            depositReserveRate = #{value}
+        </set>
+    </update>
+
+    <!-- 设置存款准备金 -->
+    <update id="setDepositReserve">
+        UPDATE tb_bank_config
+        <set>
+            depositReserve = #{value}
+        </set>
+    </update>
+
+    <!-- 获取对公活期利率 -->
+    <select id="getPublicDemandRate" resultType="java.math.BigDecimal">
+        SELECT publicDemandRate FROM tb_bank_config
+    </select>
+
+    <!-- 获取个人活期利率 -->
+    <select id="getPersonalDemandRate" resultType="java.math.BigDecimal">
+        SELECT personalDemandRate FROM tb_bank_config
+    </select>
+
+    <!-- 获取资产端数额 -->
+    <select id="getLastAsset" resultType="java.math.BigDecimal">
+        SELECT lastAsset FROM tb_bank_config
+    </select>
+
+    <!-- 获取贷款端数额 -->
+    <select id="getLastDebt" resultType="java.math.BigDecimal">
+        SELECT LastDebt FROM tb_bank_config
+    </select>
+
+    <!-- 获取存款准备金率 -->
+    <select id="getDepositReserveRate" resultType="java.math.BigDecimal">
+        SELECT depositReserveRate FROM tb_bank_config
+    </select>
+
+    <!-- 获取存款准备金 -->
+    <select id="getDepositReserve" resultType="java.math.BigDecimal">
+        SELECT depositReserve FROM tb_bank_config
+    </select>
+
+    <!-- 获取对公账户所有存款 -->
+    <select id="getPublicTotalBalance" resultType="java.math.BigDecimal">
+        SELECT sum(balance) FROM tb_public_account
+    </select>
+
+    <!-- 获取个人账户所有存款 -->
+    <select id="getPersonalTotalBalance" resultType="java.math.BigDecimal">
+        SELECT sum(balance) FROM tb_personal_account
+    </select>
+
+    <!-- 获取未取款的定期存款 -->
+    <select id="getDepositTotal" resultType="java.math.BigDecimal">
+        SELECT sum(amount) FROM tb_deposit
+        <where>
+            withDrawStatus = 0
+        </where>
+    </select>
+
+
+</mapper>

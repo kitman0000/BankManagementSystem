@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imbus.bank.publicServiceModule.dao.PublicAccountApplyDao">
+
+    <!-- 处理开户申请 -->
+    <update id="updateApplyStatus">
+        UPDATE tb_public_account_apply
+        <set>
+            handleStatus = #{status},
+            handleUser = #{userID},
+            authNo = #{authNo}
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+    <!-- 获取申请页数 -->
+    <select id="getApplyCount" resultType="java.lang.Integer">
+        SELECT count(id) FROM tb_public_account_apply
+        <where>
+            handleStatus = 0
+            AND agencyID = #{agencyID}
+        </where>
+    </select>
+
+    <!-- 获取申请列表 -->
+    <select id="getApply" resultType="com.imbus.bank.publicServiceModule.bo.PublicAccountApplyBo">
+        SELECT tb_public_account_apply.id,accountType,tb_public_account_apply.name,tb_public_client.name as clientName
+        FROM tb_public_account_apply
+        LEFT JOIN tb_public_client ON clientID = tb_public_client.id
+        <where>
+            <!-- 筛选条件 -->
+            handleStatus = 0
+            AND tb_public_account_apply.agencyID = #{agencyID}
+
+            <!-- 分页的条件 -->
+            AND tb_public_account_apply.id Not In (Select * from (Select id From tb_public_account_apply
+            <where>
+                <!-- 筛选条件 -->
+                handleStatus = 0
+                AND tb_public_account_apply.agencyID = #{agencyID}
+            </where>
+            Limit #{startRow})as t) Limit #{rowsOnePage}
+            <!-- 分页的条件结束-->
+        </where>
+    </select>
+
+    <!-- 获取申请详情 -->
+    <select id="getApplyDetail" resultType="com.imbus.bank.publicServiceModule.bo.PublicAccountApplyDetailBo">
+        SELECT * FROM tb_public_account_apply
+        <where>
+            id = #{id}
+        </where>
+    </select>
+</mapper>

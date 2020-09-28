@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imbus.bank.publicServiceModule.dao.PublicAccountDao">
+
+    <!--    添加对公账户 提交申请     -->
+    <insert id="createAccountApply">
+        INSERT INTO tb_public_account_apply
+        <set>
+          <include refid="publicAccountSet"/>
+        </set>
+    </insert>
+
+    <!-- 添加账户(来自apply表的数据) -->
+    <insert id="createAccount">
+        INSERT INTO tb_public_account
+        <set>
+            <include refid="publicAccountSet"/>,
+            authDate = #{publicAccountEntity.authDate},
+            authNo = #{publicAccountEntity.authNo},
+            id = #{publicAccountEntity.bankAccountID}
+        </set>
+    </insert>
+
+    <!-- 添加账号余额 -->
+    <update id="addAccountBalance">
+        UPDATE tb_public_account
+        <set>
+            balance = balance + #{amount}
+        </set>
+        <where>
+            id = #{accountID}
+        </where>
+    </update>
+
+    <!-- 减少余额 -->
+    <update id="removeAccountBalance">
+        UPDATE tb_public_account
+        <set>
+            balance = balance - #{amount}
+        </set>
+        <where>
+            id = #{accountID}
+        </where>
+    </update>
+
+    <!-- 销户 -->
+    <update id="cancelAccount">
+        UPDATE tb_public_account
+        <set>
+            available = FALSE
+        </set>
+        <where>
+            id = #{accountID}
+        </where>
+    </update>
+
+    <!-- 获取用户基本账户数量 -->
+    <select id="getBasicAccountNumber" resultType="java.lang.Integer">
+        SELECT count(id) FROM tb_public_account
+        <where>
+            clientID = #{clientID} AND accountType = '1' AND available = True
+        </where>
+    </select>
+    <select id="checkAccountPwd" resultType="java.lang.Integer">
+        SELECT count(id) FROM tb_public_account
+        <where>
+            id = #{accountID} AND pwd = #{pwd} AND available = True
+        </where>
+    </select>
+
+    <!-- 获取账户余额 -->
+    <select id="getAccountBalance" resultType="java.math.BigDecimal">
+        SELECT balance FROM tb_public_account
+        <where>
+            id = #{accountID}
+        </where>
+    </select>
+
+    <!-- 获取用户余额列表 -->
+    <select id="getAccountBalanceList" resultType="com.imbus.bank.publicServiceModule.bo.PublicAccountBo">
+        SELECT id,balance FROM tb_public_account
+        <where>
+            available = TRUE
+        </where>
+    </select>
+
+    <!-- 获取客户账户 -->
+    <select id="getClientAccount" resultType="com.imbus.bank.publicServiceModule.bo.PublicAccountBo">
+        SELECT * FROM tb_public_account
+        <where>
+            clientID = #{clientID}
+        </where>
+    </select>
+
+    <sql id="publicAccountSet">
+        clientID  = #{publicAccountEntity.clientID},
+        accountType = #{publicAccountEntity.accountType},
+        agencyID = #{publicAccountEntity.agencyID},
+        name = #{publicAccountEntity.name},
+        pwd = #{publicAccountEntity.pwd}
+    </sql>
+</mapper>

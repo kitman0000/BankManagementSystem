@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imbus.bank.userModule.dao.UserDao">
+
+    <!-- 获取用户数量 -->
+    <select id="getUserNumber" resultType="java.lang.Integer">
+        SELECT COUNT(userID) FROM tb_user
+        <where>
+            <if test="username != ''">
+                username LIKE '%${username}%'
+            </if>
+            <if test="status != -1">
+                AND status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <!-- 获取某页用户信息 -->
+    <select id="getUser" resultType="com.imbus.bank.userModule.bo.UserBo">
+        SELECT userID,username,nickName,status,role FROM tb_user
+
+        <where>
+            <if test="username != ''">
+                username LIKE '%${username}%'
+            </if>
+            <if test="status != -1">
+                AND
+                status = #{status}
+            </if>
+            AND userID Not In (Select * from (Select userID From tb_user
+        </where>
+        <where>
+            <if test="username != ''">
+                username LIKE '%${username}%'
+            </if>
+            <if test="status != -1">
+                AND
+                status = #{status}
+            </if>
+        </where>
+        Limit #{startRow})as t) Limit #{rowsOnePage}
+
+    </select>
+
+    <!-- 获取某用户详细信息 -->
+    <select id="getUserDetail" resultType="com.imbus.bank.userModule.bo.UserDetailBo">
+        SELECT tb_user.*,name as agencyName FROM tb_user
+        LEFT JOIN tb_agency ON agencyID = tb_agency.id
+        <where>
+            userID = #{userID}
+        </where>
+    </select>
+
+    <!-- 编辑某用户详细信息-->
+    <update id="updateUser">
+        UPDATE tb_user
+        <set>
+            username = #{userDetail.username},
+            nickName = #{userDetail.nickName},
+            status = #{userDetail.status},
+            role = #{userDetail.role},
+            email = #{userDetail.email},
+            phoneNumber = #{userDetail.phoneNumber},
+            sex = #{userDetail.sex},
+            birthday = #{userDetail.birthday},
+            agencyID = #{userDetail.agencyID},
+            lastUpdateTime = now()
+            <if test="userDetail.pwd != ''">
+                ,pwd = #{userDetail.pwd}
+            </if>
+        </set>
+
+        <where>
+            userID = #{userDetail.userID}
+        </where>
+    </update>
+
+    <!-- 添加单个用户-->
+    <insert id="insertUser">
+        INSERT INTO tb_user
+        <set>
+            username = #{userDetail.username},
+            pwd = #{userDetail.pwd},
+            nickName = #{userDetail.nickName},
+            status = #{userDetail.status},
+            role = #{userDetail.role},
+            email = #{userDetail.email},
+            phoneNumber = #{userDetail.phoneNumber},
+            sex = #{userDetail.sex},
+            birthday = #{userDetail.birthday}
+        </set>
+    </insert>
+
+    <!-- 删除单个用户(注销账号) -->
+    <delete id="deleteUser">
+        UPDATE tb_user
+        <set>
+            status = 2
+        </set>
+        <where>
+            userID = #{userID}
+        </where>
+    </delete>
+</mapper>

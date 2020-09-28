@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imbus.bank.trunkModule.dao.TrunkCashDao">
+
+    <update id="addTrunkCash">
+        UPDATE tb_trunk
+        <set>
+            cash = cash + #{amount}
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+    <update id="removeTrunkCash">
+        UPDATE tb_trunk
+        <set>
+            cash = cash - #{amount}
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+    <select id="getTrunkCash" resultType="java.math.BigDecimal">
+        SELECT cash FROM tb_trunk
+        <where>
+            id = #{id}
+        </where>
+    </select>
+
+    <!-- 获取用户的尾箱ID -->
+    <select id="getTellerTrunkID" resultType="java.lang.Integer">
+        SELECT id FROM tb_trunk
+        <where>
+            tellerID = #{tellerID}
+        </where>
+    </select>
+</mapper>

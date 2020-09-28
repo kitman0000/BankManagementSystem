@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imbus.bank.trunkModule.dao.TrunkDao">
+
+    <insert id="addTrunk">
+        INSERT INTO tb_trunk
+        <set>
+            cash = 0,
+            number = #{trunkEntity.number},
+            agencyID = #{agencyID}
+        </set>
+    </insert>
+
+    <update id="editTrunk">
+        <set>
+            number = #{trunkEntity.number}
+        </set>
+        <where>
+            id = #{trunkEntity.id}
+        </where>
+    </update>
+
+    <update id="setTrunkTeller">
+        UPDATE tb_trunk
+        <set>
+            tellerID = #{tellerID}
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+    <delete id="deleteTrunk">
+        DELETE FROM tb_trunk
+        <where>
+            id = #{id}
+            AND
+            cash = 0
+        </where>
+    </delete>
+
+    <select id="getAgencyTrunk" resultType="com.imbus.bank.trunkModule.bo.TrunkBo">
+        SELECT * FROM tb_trunk
+        <where>
+            agencyID = #{agencyID}
+        </where>
+    </select>
+
+    <!-- 获取所有尾箱 -->
+    <select id="getAllTrunk" resultType="com.imbus.bank.trunkModule.bo.TrunkBo">
+        SELECT id,agencyID,cash FROM tb_trunk;
+    </select>
+
+    <!-- 重置尾箱备份表 -->
+    <update id="truncateTrunkBackup">
+        truncate table tb_trunk_backup
+    </update>
+
+    <!-- 添加尾箱备份信息 -->
+    <insert id="addTrunkBackup">
+        INSERT INTO tb_trunk_backup
+        <set>
+            id = #{id},
+            agencyID = #{agencyID},
+            cash = #{cash}
+        </set>
+    </insert>
+
+    <select id="getTrunkBackup" resultType="com.imbus.bank.trunkModule.bo.TrunkBo">
+        SELECT * FROM tb_trunk_backup
+    </select>
+</mapper>

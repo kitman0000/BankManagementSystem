@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imbus.bank.personalServiceModule.dao.PersonalAccountDao">
+    <!-- 开户申请 -->
+    <insert id="createAccount">
+        INSERT INTO tb_personal_account
+        <set>
+            <include refid="personalAccountSet"/>,
+            authDate = #{personalAccountEntity.authDate},
+            id = #{personalAccountEntity.id}
+        </set>
+    </insert>
+
+    <!-- 获取用户一类卡数量 -->
+    <select id="getClassOneCardNumber" resultType="java.lang.Integer">
+        SELECT count(id) FROM tb_personal_account
+        <where>
+            clientID = #{clientID} AND accountType = '1' AND available = True
+        </where>
+    </select>
+
+    <!-- 获取用户二类卡数量 -->
+    <select id="getClassTwoCardNumber" resultType="java.lang.Integer">
+        SELECT count(id) FROM tb_personal_account
+        <where>
+            clientID = #{clientID} AND accountType = '2' AND available = True
+        </where>
+    </select>
+    <select id="checkAccountPwd" resultType="java.lang.Integer">
+        SELECT count(id) FROM tb_personal_account
+        <where>
+            id = #{accountID} AND pwd = #{pwd} AND available = True
+        </where>
+    </select>
+
+    <!-- 销户 -->
+    <update id="cancelAccount">
+        UPDATE tb_personal_account
+        <set>
+            available = FALSE
+        </set>
+        <where>
+            id = #{accountID}
+        </where>
+    </update>
+
+    <!-- 添加账号余额 -->
+    <update id="addAccountBalance">
+        UPDATE tb_personal_account
+        <set>
+            <!-- balance初始值要设为0，而不是null -->
+            balance = balance + #{amount}
+        </set>
+        <where>
+            id = #{accountID}
+        </where>
+    </update>
+
+    <!-- 减少余额 -->
+    <update id="removeAccountBalance">
+        UPDATE tb_personal_account
+        <set>
+            balance = balance - #{amount}
+        </set>
+        <where>
+            id = #{accountID}
+        </where>
+    </update>
+
+    <!-- 获取账户余额 -->
+    <select id="getAccountBalance" resultType="java.math.BigDecimal">
+        SELECT balance FROM tb_personal_account
+        <where>
+            id = #{accountID}
+        </where>
+    </select>
+
+
+    <select id="getAccountBalanceList" resultType="com.imbus.bank.personalServiceModule.bo.PersonalAccountBo">
+        SELECT id,balance FROM tb_personal_account
+        <where>
+            available = TRUE
+        </where>
+    </select>
+
+    <!-- 获取客户的账户 -->
+    <select id="getClientAccount" resultType="com.imbus.bank.personalServiceModule.bo.PersonalAccountBo">
+        SELECT * FROM tb_personal_account
+        <where>
+            clientID = #{clientID}
+        </where>
+    </select>
+
+
+    <sql id="personalAccountSet">
+        clientID  = #{personalAccountEntity.clientID},
+        accountType = #{personalAccountEntity.accountType},
+        agencyID = #{personalAccountEntity.agencyID},
+        pwd = #{personalAccountEntity.pwd}
+    </sql>
+</mapper>

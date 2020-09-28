@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imbus.bank.transactionSearchModule.dao.TransactionDao">
+
+    <!-- 获取资金账单 -->
+    <select id="getFundTransactionList" resultType="com.imbus.bank.transactionSearchModule.bo.TransactionBo">
+        SELECT tb_fund_book.* ,tb_user.username AS tellerName,tb_agency.name as agencyName FROM tb_fund_book
+        LEFT JOIN tb_user ON tb_fund_book.tellerID = tb_user.userID
+        LEFT JOIN tb_agency ON tb_fund_book.agencyID = tb_agency.id
+        <where>
+            transactDatetime >= #{searchEntity.startTime}
+            AND
+            transactDatetime &lt; #{searchEntity.endTime}
+
+            <!-- 根据筛选条件，选择资产端或借贷端 -->
+
+            AND (tag = 0
+            <if test="searchEntity.showAssets == true">
+                OR tag = 1
+            </if>
+            <if test="searchEntity.showDebt == true">
+                OR tag = 2
+            </if>
+            )
+        </where>
+    </select>
+
+    <!-- 获取现金账单 -->
+    <select id="getCashTransactionList" resultType="com.imbus.bank.transactionSearchModule.bo.TransactionBo">
+        SELECT tb_cash_book.*,3 as tag,tb_user.username AS tellerName,tb_agency.name as agencyName FROM tb_cash_book
+        LEFT JOIN tb_user ON tb_cash_book.tellerID = tb_user.userID
+        LEFT JOIN tb_agency ON tb_cash_book.agencyID = tb_agency.id
+        <where>
+            transactDatetime >= #{searchEntity.startTime}
+            AND
+            transactDatetime &lt; #{searchEntity.endTime}
+        </where>
+    </select>
+</mapper>

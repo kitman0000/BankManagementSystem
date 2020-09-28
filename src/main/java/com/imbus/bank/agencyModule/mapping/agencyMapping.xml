@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imbus.bank.agencyModule.dao.AgencyDao">
+
+    <!-- 添加机构 -->
+    <insert id="insertAgency">
+        INSERT INTO tb_agency
+        <include refid="agencySet"/>
+    </insert>
+
+
+    <!-- 增加机构现金 -->
+    <update id="addAgencyCash">
+        UPDATE tb_agency
+        <set>
+            cash = cash + #{cash}
+        </set>
+        <where>
+            id = #{agencyID}
+        </where>
+    </update>
+
+    <!-- 减少机构现金 -->
+    <update id="removeAgencyCash">
+        UPDATE tb_agency
+        <set>
+            cash = cash - #{cash}
+        </set>
+        <where>
+            id = #{agencyID}
+        </where>
+    </update>
+
+    <update id="deleteAgency">
+        UPDATE tb_agency
+        <set>
+            avalible = FALSE
+        </set>
+        WHERE id IN
+        <foreach collection="agencyID" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </update>
+
+    <!-- 修改机构 -->
+    <update id="editAgency">
+        UPDATE tb_agency
+        <include refid="agencySet"/>
+        WHERE id = #{agencyEntity.id} AND avalible = TRUE
+    </update>
+
+    <!-- 获取城市 -->
+    <select id="getCites" resultType="com.imbus.bank.agencyModule.bo.CityBo">
+        SELECT * FROM tb_city
+        <where>
+            name LIKE '%${keywords}%'
+        </where>
+    </select>
+
+    <!-- 获取机构数量 -->
+    <select id="getAgencyNumbers" resultType="java.lang.Integer">
+        SELECT count(id) FROM tb_agency
+        <where>
+            (name LIKE '%${keywords}%'
+            OR address LIKE '%${keywords}%')
+            AND avalible = TRUE
+        </where>
+    </select>
+
+    <!-- 获取机构列表 -->
+    <select id="getAgencyList" resultType="com.imbus.bank.agencyModule.bo.AgencyBo">
+        SELECT tb_agency.id,tb_agency.name,bankCode,city,address,ownerID,tb_city.name as cityName,username as ownerName
+        FROM tb_agency LEFT JOIN tb_city ON city = tb_city.id LEFT JOIN tb_user ON ownerID = userID
+        <where>
+            <!-- 筛选条件 -->
+            (tb_agency.name LIKE '%${keywords}%'
+            OR address LIKE '%${keywords}%')
+            AND avalible = TRUE
+
+            <!-- 分页的条件 -->
+            AND tb_agency.id Not In (Select * from (Select tb_agency.id From tb_agency
+            <where>
+                <!-- 筛选条件 -->
+                (tb_agency.name LIKE '%${keywords}%'
+                OR address LIKE '%${keywords}%')
+
+                AND avalible = TRUE
+
+            </where>
+            Limit #{startRow})as t) Limit #{rowsOnePage}
+            <!-- 分页的条件结束-->
+        </where>
+    </select>
+    <select id="getAgencyTotalCash" resultType="java.math.BigDecimal">
+        SELECT sum(cash) FROM tb_agency
+        WHERE id IN
+        <foreach collection="agencyID" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="getUserAgencyID" resultType="java.lang.Integer">
+        SELECT agencyID FROM tb_user
+        <where>
+            userID = #{userID}
+        </where>
+    </select>
+
+    <!-- 获取机构地区号 -->
+    <select id="getAgencyCityCode" resultType="java.lang.String">
+        SELECT city FROM tb_agency
+        <where>
+            id = #{agencyID}
+        </where>
+    </select>
+
+    <!-- 获取机构号 -->
+    <select id="getBankCode" resultType="java.lang.String">
+        SELECT bankCode FROM tb_agency
+        <where>
+            id = #{agencyID}
+        </where>
+    </select>
+
+    <!-- 获取机构现金 -->
+    <select id="getAgencyCash" resultType="java.math.BigDecimal">
+        SELECT cash FROM tb_agency
+        <where>
+            id = #{agencyID}
+            AND
+            avalible = TRUE
+        </where>
+    </select>
+
+    <!-- 获取所有机构id和现金 -->
+    <select id="getAllAgency" resultType="com.imbus.bank.agencyModule.bo.AgencyInfoBo">
+        SELECT id,cash FROM tb_agency
+        <where>
+            avalible = true
+        </where>
+    </select>
+
+    <!-- 重置表 -->
+    <update id="truncateAgencyBackup">
+        truncate table tb_agency_backup
+    </update>
+
+    <!-- 新增一条备份数据 -->
+    <insert id="addBackup">
+        INSERT INTO tb_agency_backup
+        <set>
+            id = #{id},
+            cash = #{cash}
+        </set>
+    </insert>
+
+    <sql id="agencySet">
+        <set>
+            name = #{agencyEntity.name},
+            bankCode = #{agencyEntity.bankCode},
+            city = #{agencyEntity.city},
+            address = #{agencyEntity.address},
+            ownerID = #{agencyEntity.ownerID}
+        </set>
+    </sql>
+
+    <!-- 获取机构备份数据 -->
+    <select id="getAgencyBackup" resultType="com.imbus.bank.agencyModule.bo.AgencyInfoBo">
+        SELECT * FROM tb_agency_backup
+    </select>
+
+    <!-- 获取机构详情 -->
+    <select id="getAgencyDetail" resultType="com.imbus.bank.agencyModule.bo.AgencyBo">
+       SELECT * FROM tb_agency
+        <where>
+            id = #{agencyID}
+        </where>
+    </select>
+
+
+</mapper>

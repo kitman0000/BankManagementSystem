@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imbus.bank.userModule.dao.AccountDao">
+
+    <select id="findUserIDByName" resultType="com.imbus.bank.userModule.bo.UserBo">
+        SELECT * FROM bankmanagement_db.tb_user
+        <where>username = #{username}</where>
+    </select>
+
+    <!-- 获得用户密码 -->
+    <select id="getUserPwd" resultType="java.lang.String">
+        SELECT pwd FROM tb_user WHERE userID = #{userID}
+    </select>
+
+    <!-- 更换用户密码 -->
+    <update id="updateUserPwd">
+        UPDATE tb_user
+        <set>
+            pwd = #{pwd}
+        </set>
+        <where>
+            userID = #{userID}
+        </where>
+    </update>
+</mapper>

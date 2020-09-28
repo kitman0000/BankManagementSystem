@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imbus.bank.clientSearchModule.dao.PublicClientSearchDao">
+    <select id="getPublicClientPage" resultType="java.lang.Integer">
+          SELECT count(id) FROM tb_public_client
+          <where>
+            <include refid="publicSearchCondition"/>
+          </where>
+    </select>
+
+    <select id="getPublicList" resultType="com.imbus.bank.clientSearchModule.bo.PublicClientBo">
+        SELECT tb_public_client.id,code,tb_public_client.name,telephone,authDate,tb_agency.name as agencyName
+        FROM tb_public_client LEFT JOIN tb_agency ON agencyID = tb_agency.id
+        <where>
+            <!-- 筛选条件 -->
+            <include refid="publicSearchCondition"/>
+
+            <!-- 分页的条件 -->
+            AND tb_public_client.id Not In (Select * from (Select id From tb_public_client
+            <where>
+                <!-- 筛选条件 -->
+                <include refid="publicSearchCondition"/>
+
+            </where>
+            Limit #{startRow})as t) Limit #{rowsOnePage}
+            <!-- 分页的条件结束-->
+        </where>
+    </select>
+
+    <select id="getPublicDetail" resultType="com.imbus.bank.clientSearchModule.bo.PublicClientDetailBo">
+        SELECT * FROM tb_public_client
+        LEFT JOIN tb_agency ON agencyID = tb_agency.id
+        <where>
+            tb_public_client.id = #{id}
+        </where>
+    </select>
+
+    <sql id="publicSearchCondition" >
+        <if test="clientSearchEntity.name != ''">
+            tb_public_client.name LIKE '%${clientSearchEntity.name}%'
+        </if>
+        <if test="clientSearchEntity.IDNumber != ''">
+            AND (telephone LIKE '%${clientSearchEntity.IDNumber}%' OR personCredentialsNumber LIKE '%${clientSearchEntity.IDNumber}%')
+        </if>
+        <if test="clientSearchEntity.agencyID != -1">
+            AND agencyID = #{clientSearchEntity.agencyID}
+        </if>
+        <if test="clientSearchEntity.authDateStart != ''">
+            AND authDate > #{clientSearchEntity.authDateStart}
+        </if>
+        <if test="clientSearchEntity.authDateEnd != ''">
+            AND authDate &lt; #{clientSearchEntity.authDateEnd}
+        </if>
+    </sql>
+</mapper>

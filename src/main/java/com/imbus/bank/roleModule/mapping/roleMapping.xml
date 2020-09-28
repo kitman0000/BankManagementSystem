@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imbus.bank.roleModule.dao.RoleDao">
+    <!-- 获取用户角色 -->
+    <select id="getUserRole" resultType="com.imbus.bank.roleModule.bo.RoleBo">
+        SELECT tb_role.id as roleID,tb_role.roleName FROM tb_user,tb_role where tb_user.role = tb_role.id and tb_user.userID = #{userID};
+    </select>
+
+    <!-- 获取所有角色 -->
+    <select id="getAllUser" resultType="com.imbus.bank.roleModule.bo.RoleBo">
+        SELECT id as roleID,roleName FROM tb_role
+    </select>
+
+    <!-- 添加新角色 -->
+    <insert id="addRole">
+        INSERT INTO tb_role
+        <set>
+            roleName = #{roleName}
+        </set>
+    </insert>
+
+    <!-- 删除角色 -->
+    <delete id="deleteRole">
+        DELETE FROM tb_role
+        <where>
+            id = #{roleID}
+        </where>
+    </delete>
+
+    <!-- 检查某角色是否拥有某权限-->
+    <select id="checkRolePermission" resultType="java.lang.Integer">
+        SELECT COUNT(id) FROM tb_role_Permission
+        <where>
+            roleID = #{roleID}
+            AND
+            permissionID = #{permissionID}
+        </where>
+    </select>
+
+    <!-- 为角色添加权限 -->
+    <insert id="addRolePermission">
+        INSERT INTO tb_role_Permission
+        <set>
+            roleID = #{roleID},
+            permissionID = #{permissionID}
+        </set>
+    </insert>
+
+    <!-- 为角色删除权限 -->
+    <delete id="deleteRolePermission">
+        DELETE FROM tb_role_Permission
+        <where>
+            roleID = #{roleID}
+            AND
+            permissionID = #{permissionID}
+        </where>
+    </delete>
+
+
+</mapper>

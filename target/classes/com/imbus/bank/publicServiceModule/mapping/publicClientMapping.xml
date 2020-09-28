@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imbus.bank.publicServiceModule.dao.PublicClientDao">
+    <insert id="addClient">
+        INSERT INTO tb_public_client
+        <include refid="clientSet"/>
+    </insert>
+
+    <sql id="clientSet">
+        <set>
+            name = #{publicClientEntity.name},
+            telephone = #{publicClientEntity.telephone},
+            address = #{publicClientEntity.address},
+            postalCode = #{publicClientEntity.postalCode},
+            clientType = #{publicClientEntity.clientType},
+            code = #{publicClientEntity.code},
+            personType = #{publicClientEntity.personType},
+            personName = #{publicClientEntity.personName},
+            personCredentialsType = #{publicClientEntity.personCredentialsType},
+            personCredentialsNumber = #{publicClientEntity.personCredentialsNumber},
+            industryType = #{publicClientEntity.industryType},
+            regCapital = #{publicClientEntity.regCapital},
+            areaCode = #{publicClientEntity.areaCode},
+            businessScope = #{publicClientEntity.businessScope},
+            certifiedDocuments = #{publicClientEntity.certifiedDocuments},
+            taxRegCertificateNum = #{publicClientEntity.taxRegCertificateNum},
+            agencyID = #{publicClientEntity.agencyID},
+            authDate = #{publicClientEntity.authDate}
+        </set>
+    </sql>
+</mapper>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imbus.bank.personalServiceModule.dao.PersonalRateDao">
+
+    <!-- 根据存款时长获取个人定期存款的利率 -->
+    <select id="getRate" resultType="java.math.BigDecimal">
+        SELECT rate FROM tb_personal_rate
+        <where>
+            month = #{month}
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imbus.bank.timeDepositModule.dao.DepositDao">
+    <insert id="addDeposit">
+        INSERT INTO tb_deposit
+        <set>
+            accountID = #{deposit.accountID},
+            depositDate = #{deposit.depositDate},
+            rate = #{deposit.rate},
+            amount = #{deposit.amount},
+            scheduledWithdrawDate = #{deposit.scheduledWithdrawDate}
+        </set>
+    </insert>
+
+    <!-- 更新取款状态 -->
+    <update id="updateWithDrawStatus">
+        UPDATE tb_deposit
+        <set>
+            withDrawStatus = #{withDrawStatus},
+            actualWithdrawDate = now()
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+    <!-- 根据日期获取贷款 -->
+    <select id="getDeposit" resultType="com.imbus.bank.timeDepositModule.bo.DepositBo">
+        SELECT * FROM tb_deposit
+        <where>
+            scheduledWithdrawDate >= #{scheduledStartDate}
+            AND
+            scheduledWithdrawDate &lt; #{scheduledEndDate}
+        </where>
+    </select>
+
+    <!-- 获取账户存款 -->
+    <select id="getAccountDeposit" resultType="com.imbus.bank.timeDepositModule.bo.DepositBo">
+        SELECT * FROM tb_deposit
+        <where>
+            accountID = #{accountID}
+            AND (withDrawStatus = 0 OR withDrawStatus = 1)
+        </where>
+    </select>
+</mapper>

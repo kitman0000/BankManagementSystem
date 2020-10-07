@@ -4,6 +4,7 @@ import com.imbus.bank.agencyModule.bo.AgencyBo;
 import com.imbus.bank.agencyModule.bo.AgencyInfoBo;
 import com.imbus.bank.agencyModule.entity.AgencyEntity;
 import com.imbus.bank.agencyModule.bo.CityBo;
+import com.imbus.bank.cashManageModule.bo.AgencyCashBo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -44,6 +45,8 @@ public interface AgencyDao {
     void removeAgencyCash(@Param("cash") BigDecimal cash, @Param("agencyID") int agencyID);
 
     List<AgencyInfoBo> getAllAgency();
+
+    List<AgencyCashBo> getAgencyCashInfo();
 
     void truncateAgencyBackup();
 

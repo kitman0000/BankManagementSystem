@@ -1,15 +1,16 @@
 package com.imbus.bank.cashManageModule.service.impl;
 
 import com.imbus.bank.agencyModule.dao.AgencyDao;
+import com.imbus.bank.cashManageModule.bo.AgencyCashBo;
 import com.imbus.bank.cashManageModule.service.ICashManage;
 import com.imbus.bank.cashManageModule.type.CashToFundResult;
 import com.imbus.bank.cashManageModule.type.FundToCashResult;
-import com.imbus.bank.common.AgencyCommon;
 import com.imbus.bank.common.BookCommon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Created by zhong on 2020-9-14.
@@ -62,7 +63,7 @@ public class CashMangeImpl implements ICashManage{
     }
 
     @Override
-    public BigDecimal getAgencyCash(int agencyID) {
-        return agencyDao.getAgencyCash(agencyID);
+    public List<AgencyCashBo> getAgencyCash() {
+        return agencyDao.getAgencyCashInfo();
     }
 }

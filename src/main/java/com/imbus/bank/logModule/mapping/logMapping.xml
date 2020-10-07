@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imbus.bank.logModule.dao.LogDao">
+
+    <!-- 添加日志信息 -->
+    <insert id="addLogInfo">
+        INSERT INTO tb_log
+        <set>
+            userID = #{userID},
+            methodName = #{methodName},
+            args = #{args}
+        </set>
+    </insert>
+
+    <select id="getLogPage" resultType="java.lang.Integer">
+        SELECT count(id) FROM tb_log
+        <where>
+            <include refid="logCondition"/>
+        </where>
+    </select>
+
+    <!-- 获取日志列表 -->
+    <select id="getLog" resultType="com.imbus.bank.logModule.bo.LogBo">
+        SELECT tb_log.*,username
+        FROM tb_log LEFT JOIN tb_user ON tb_log.userID = tb_user.userID
+        <where>
+            <!-- 筛选条件 -->
+            <include refid="logCondition"/>
+
+            <!-- 分页的条件 -->
+            AND tb_log.id Not In (Select * from (Select id From tb_log
+            <where>
+              <include refid="logCondition"/>
+            </where>
+            Limit #{startRow})as t) Limit #{rowsOnePage}
+            <!-- 分页的条件结束-->
+        </where>
+    </select>
+
+    <sql id="logCondition">
+        logTime > #{logEntity.startTime}
+        AND logTime &lt; #{logEntity.endTIme}
+    </sql>
+</mapper>

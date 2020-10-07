@@ -46,6 +46,7 @@
         <mapper resource="com/imbus/bank/trunkModule/mapping/trunkCardMapping.xml"/>
         <mapper resource="com/imbus/bank/excelModule/mapping/excelOutputMapping.xml"/>
         <mapper resource="com/imbus/bank/nettingModule/mapping/nettingMapping.xml"/>
+        <mapper resource="com/imbus/bank/logModule/mapping/logMapping.xml"/>
     </mappers>
 
 </configuration>

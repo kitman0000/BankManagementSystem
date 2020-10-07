@@ -231,7 +231,11 @@ public class ScheduleService {
      */
     private void netting(List<BookBo> cashList,Date startTime,Date endTime){
         // 获取备份数据
+
+        // 获取机构备份表
         List<AgencyInfoBo> agencyBackupList = agencyDao.getAgencyBackup();
+
+        // 获取尾箱备份表
         List<TrunkBo> trunkBackupList = trunkDao.getTrunkBackup();
 
         // 轧账结果

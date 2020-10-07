@@ -25,6 +25,8 @@ public class BookBo {
 
     private int tellerID;
 
+    private int trunkID;
+
     private int tag;
 
     private int cashObject;

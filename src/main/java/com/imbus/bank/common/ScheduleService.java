@@ -25,10 +25,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -228,11 +225,27 @@ public class ScheduleService {
 
     /***
      * 轧账
+     * 1、获取机构、尾箱的备份现金数据
+     * 2、将当日交易信息通过备份数据计算
+     * 3、将当前现金数据和计算后的备份数据相比较，相等既平账
      */
     private void netting(List<BookBo> cashList,Date startTime,Date endTime){
         // 获取备份数据
+
+        // 获取机构备份表
         List<AgencyInfoBo> agencyBackupList = agencyDao.getAgencyBackup();
+        // 将机构数据转换为HashMap
+        HashMap<Integer,AgencyInfoBo> agencyBackupHashMap = new HashMap<>();
+        for (AgencyInfoBo agency:agencyBackupList){
+            agencyBackupHashMap.put(agency.getId(),agency);
+        }
+
+        // 获取尾箱备份表
         List<TrunkBo> trunkBackupList = trunkDao.getTrunkBackup();
+        HashMap<Integer,TrunkBo> trunkBackupHashMap = new HashMap<>();
+        for(TrunkBo trunkBo:trunkBackupList){
+            trunkBackupHashMap.put(trunkBo.getId(),trunkBo);
+        }
 
         // 轧账结果
         boolean netResult = true;
@@ -242,28 +255,21 @@ public class ScheduleService {
         String nettingSign = EncodeUtil.encodeMd5(DateUtil.getTimestamp());
 
         for (BookBo book:cashList){
-//            int agencyID = book.getAgencyID();
-//            BigDecimal amount = book.getAmount();
             totalAmount = totalAmount.add(book.getAmount());
 
             if(book.getCashObject() == 1){
                 // 如果是机构的账单
-                Iterator<AgencyInfoBo> iterator = agencyBackupList.iterator();
-                while (iterator.hasNext()){
-                    AgencyInfoBo agency = iterator.next();
-                    if(agency.getId() == book.getAgencyID()){
-                        BigDecimal cash = agency.getCash();
-                        agency.setCash(cash.add(book.getAmount()));
-                    }
-                }
+                AgencyInfoBo agency = agencyBackupHashMap.get(book.getAgencyID());
+                BigDecimal cash = agency.getCash();
+                agency.setCash(cash.add(book.getAmount()));
+                agencyBackupHashMap.put(agency.getId(),agency);
+
             }else if(book.getCashObject() == 2){
                 // 如果是尾箱的账单
-                Iterator<TrunkBo> iterator = trunkBackupList.iterator();
-                while (iterator.hasNext()){
-                    TrunkBo trunk = iterator.next();
-                    BigDecimal cash = trunk.getCash();
-                    trunk.setCash(cash.add(book.getAmount()));
-                }
+                TrunkBo trunk = trunkBackupHashMap.get(book.getTrunkID());
+                BigDecimal cash = trunk.getCash();
+                trunk.setCash(cash.add(book.getAmount()));
+                trunkBackupHashMap.put(trunk.getId(),trunk);
             }
         }
 
@@ -271,25 +277,30 @@ public class ScheduleService {
         List<TrunkBo> trunkList = trunkDao.getAllTrunk();
 
         // 将当前的机构和计算后的做比较
-        for (AgencyInfoBo agency:agencyBackupList){
-            for (AgencyInfoBo agencyNow:agencyList){
-                if(agency.getId() == agencyNow.getId() && agency.getCash().compareTo(agencyNow.getCash()) != 0){
-                    String agencyName = agencyDao.getAgencyDetail(agency.getId()).getName();
-                    nettingDao.addNettingWarning("机构"+agencyName,agency.getCash(),agencyNow.getCash(),nettingSign);
-                    netResult = false;
-                }
+        for (AgencyInfoBo agencyNow:agencyList){
+            AgencyInfoBo agencyBackup = agencyBackupHashMap.get(agencyNow.getId());
+            if(agencyBackup == null){
+                continue;
+            }
+            if(agencyBackup.getCash().compareTo(agencyNow.getCash()) != 0){
+                String agencyName = agencyDao.getAgencyDetail(agencyBackup.getId()).getName();
+                nettingDao.addNettingWarning("机构"+agencyName,agencyBackup.getCash(),agencyNow.getCash(),nettingSign);
+                netResult = false;
             }
         }
 
         // 将当前的尾箱和计算后的做比较
-        for (TrunkBo trunkBo:trunkBackupList){
-            for (TrunkBo trunkNow:trunkList){
-                if(trunkBo.getId() == trunkNow.getId() && trunkBo.getCash().compareTo(trunkNow.getCash()) != 0){
-                    nettingDao.addNettingWarning("尾箱编号" + trunkBo.getNumber(),trunkBo.getCash(),trunkNow.getCash(),nettingSign);
-                    netResult = false;
-                }
+        for (TrunkBo trunkNow:trunkList) {
+            TrunkBo trunkBackup = trunkBackupHashMap.get(trunkNow.getId());
+            if(trunkBackup == null){
+                continue;
+            }
+            if(trunkBackup.getCash().compareTo(trunkNow.getCash()) != 0){
+                nettingDao.addNettingWarning("尾箱编号" + trunkBackup.getNumber(),trunkBackup.getCash(),trunkNow.getCash(),nettingSign);
+                netResult = false;
             }
         }
+
 
         nettingDao.addNettingResult(new Date(),netResult,cashList.size(),totalAmount,startTime,endTime,nettingSign);
     }

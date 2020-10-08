@@ -1,5 +1,6 @@
 package com.imbus.bank.cashManageModule.controller;
 
+import com.imbus.bank.cashManageModule.bo.AgencyCashBo;
 import com.imbus.bank.cashManageModule.service.ICashManage;
 import com.imbus.bank.cashManageModule.type.CashToFundResult;
 import com.imbus.bank.cashManageModule.type.FundToCashResult;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Created by zhong on 2020-9-14.
@@ -29,7 +31,7 @@ public class CashManageCl{
     }
 
     @RequestMapping(value = "/api/cashManage/cash",method = RequestMethod.GET)
-    public BigDecimal getAgencyCash(int agencyID){
-        return cashManage.getAgencyCash(agencyID);
+    public List<AgencyCashBo> getAgencyCash(){
+        return cashManage.getAgencyCash();
     }
 }

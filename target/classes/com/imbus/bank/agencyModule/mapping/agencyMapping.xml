@@ -177,5 +177,10 @@
         </where>
     </select>
 
+    <!-- 获取机构的id，名称，现金，用于给管理员调配现金 -->
+    <select id="getAgencyCashInfo" resultType="com.imbus.bank.cashManageModule.bo.AgencyCashBo">
+        SELECT id,name,cash FROM tb_agency
+    </select>
+
 
 </mapper>

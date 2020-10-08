@@ -2,10 +2,13 @@ package com.imbus.bank.announcementModule.dao;
 
 import com.imbus.bank.announcementModule.entity.AnnouncementEntity;
 import com.imbus.bank.announcementModule.bo.AnnouncementBo;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
+@Mapper
+@Repository
 public interface AnnouncementDao {
     void addAnnouncement(@Param("annoucementEntity") AnnouncementEntity announcementEntity);
 

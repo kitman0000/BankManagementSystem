@@ -6,9 +6,11 @@ import com.imbus.bank.profilePictureModule.entity.ProfilePictureEntity;
 import com.imbus.bank.profilePictureModule.service.IProfilePicture;
 import com.imbus.bank.profilePictureModule.type.ProfilePictureType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ProfilePictureImpl implements IProfilePicture {
     @Autowired
     ProfilePictureDao profilePictureDao;

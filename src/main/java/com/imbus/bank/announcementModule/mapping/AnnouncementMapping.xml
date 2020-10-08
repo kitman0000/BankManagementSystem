@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.imbus.bank.announcement.dao.AnnouncementDao">
+<mapper namespace="com.imbus.bank.announcementModule.dao.AnnouncementDao">
     <insert id="addAnnouncement">
         INSERT INTO tb_announcement
         <set>
@@ -23,11 +23,25 @@
     </update>
 
     <delete id="deleteAnnouncement">
-        DELETE FROM  tb_announcement
+        DELETE FROM tb_announcement
         <where>
             id = #{announcementID}
         </where>
     </delete>
 
+    <select id="getAnnouncementDetail" resultType="com.imbus.bank.announcementModule.bo.AnnouncementBo">
+        SELECT * FROM tb_announcement
+        <where>
+            id = #{announcementID}
+        </where>
+    </select>
+
+    <select id="getAnnouncementList" resultType="com.imbus.bank.announcementModule.bo.AnnouncementBo">
+        SELECT * FROM tb_announcement
+        <where>
+            title LIKE '%${title}'
+            author LIKE '%${author}'
+        </where>
+    </select>
 
 </mapper>

@@ -1,4 +1,4 @@
-package com.imbus.bank.announcement.entity;
+package com.imbus.bank.announcementModule.entity;
 
 public class AnnouncementEntity {
     private int id;

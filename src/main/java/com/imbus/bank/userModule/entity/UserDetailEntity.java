@@ -29,4 +29,5 @@ public class UserDetailEntity {
 
     private int agencyID;
 
+    private String pictureUrl;
 }

@@ -11,7 +11,11 @@
         </where>
     </insert>
 
+<<<<<<< HEAD
     <select id="getProfilePicture" resultType="com.imbus.bank.profilePictureModule.bo.ProfilePictureBo">
+=======
+    <select id="getProfilePicture">
+>>>>>>> a6326e27ab38c49d83cb7e90e16fbcee6bfd76ee
         SELECT pictureUrl FROM tb_announcement
         <where>
             userID = #{userID}

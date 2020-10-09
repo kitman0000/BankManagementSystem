@@ -17,7 +17,7 @@
 
     <!-- 获取某页用户信息 -->
     <select id="getUser" resultType="com.imbus.bank.userModule.bo.UserBo">
-        SELECT userID,username,nickName,status,role FROM tb_user
+        SELECT userID,username,nickName,status,role,pictureUrl FROM tb_user
 
         <where>
             <if test="username != ''">
@@ -64,6 +64,7 @@
             sex = #{userDetail.sex},
             birthday = #{userDetail.birthday},
             agencyID = #{userDetail.agencyID},
+            pictureUrl = #{userDetail.pictureUrl},
             lastUpdateTime = now()
             <if test="userDetail.pwd != ''">
                 ,pwd = #{userDetail.pwd}
@@ -87,7 +88,8 @@
             email = #{userDetail.email},
             phoneNumber = #{userDetail.phoneNumber},
             sex = #{userDetail.sex},
-            birthday = #{userDetail.birthday}
+            birthday = #{userDetail.birthday},
+            pictureUrl = #{userDetail.pictureUrl}
         </set>
     </insert>
 

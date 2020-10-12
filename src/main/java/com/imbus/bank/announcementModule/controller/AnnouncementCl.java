@@ -5,6 +5,7 @@ import com.imbus.bank.announcementModule.bo.AnnouncementBo;
 import com.imbus.bank.announcementModule.entity.AnnouncementEntity;
 import com.imbus.bank.announcementModule.service.IAnnouncement;
 import com.imbus.bank.announcementModule.type.AnnouncementType;
+import com.imbus.bank.common.UserCommon;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,11 @@ import java.util.List;
 public class AnnouncementCl {
     @Autowired
     IAnnouncement announcement;
+
+    @RequestMapping(value = "/api/announcement/announcementPageNumber",method = RequestMethod.GET)
+    public int getAnnouncementPageNumber(AnnouncementEntity announcementEntity){
+        return announcement.getAnnouncementPageNumber(announcementEntity);
+    }
 
     @RequestMapping(value = "/api/announcement/announcement",method = RequestMethod.POST)
     public AnnouncementType addAnnouncement(AnnouncementEntity announcementEntity){
@@ -40,8 +46,8 @@ public class AnnouncementCl {
     }
 
     @RequestMapping(value = "/api/announcement/announcementList",method = RequestMethod.GET)
-    public  List<AnnouncementBo> getAnnouncementList(AnnouncementEntity announcementEntity){
-        return announcement.getAnnouncementList(announcementEntity);
+    public  List<AnnouncementBo> getAnnouncementList(String title,int rowsOnePage){
+        return announcement.getAnnouncementList(title,rowsOnePage);
     }
 
 }

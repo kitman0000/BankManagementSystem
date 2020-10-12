@@ -10,6 +10,8 @@ import java.util.List;
 @Mapper
 @Repository
 public interface AnnouncementDao {
+    int getAnnouncementNumber(@Param("announcementEntity") AnnouncementEntity announcementEntity);
+
     void addAnnouncement(@Param("annoucementEntity") AnnouncementEntity announcementEntity);
 
     List<AnnouncementBo> getAnnouncementDetail(@Param("annoucementID")int announcementID);
@@ -18,5 +20,5 @@ public interface AnnouncementDao {
 
     void deleteAnnouncement(@Param("annoucementID")int announcementID);
 
-    List<AnnouncementBo> getAnnouncementList(@Param("annoucementEntity") AnnouncementEntity announcementEntity);
+    List<AnnouncementBo> getAnnouncementList(@Param("title") String title, @Param("startRow") int startRow,@Param("rowsOnePage") int rowsOnePage);
 }

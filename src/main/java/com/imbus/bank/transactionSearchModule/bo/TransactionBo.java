@@ -25,4 +25,6 @@ public class TransactionBo {
     private String tellerName;
 
     private int tag;
+
+    private int type; // 显示资金端或现金端 1:资金端 2：现金端
 }

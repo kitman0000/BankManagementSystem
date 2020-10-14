@@ -12,6 +12,7 @@
     </insert>
 
     <update id="editTrunk">
+        UPDATE tb_trunk
         <set>
             number = #{trunkEntity.number}
         </set>

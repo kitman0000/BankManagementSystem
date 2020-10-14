@@ -7,13 +7,15 @@ import com.imbus.bank.announcementModule.type.AnnouncementType;
 import java.util.List;
 
 public interface IAnnouncement {
+    int getAnnouncementPageNumber(AnnouncementEntity announcementEntity);
+
     AnnouncementType addAnnouncement(AnnouncementEntity announcementEntity);
+
+    List<AnnouncementBo> getAnnouncementList(String title, int page);
 
     List<AnnouncementBo> getAnnouncementDetail(int announcementID);
 
     AnnouncementType editAnnouncement(AnnouncementEntity announcementEntity);
 
     AnnouncementType deleteAnnouncement(int announcementID);
-
-    List<AnnouncementBo> getAnnouncementList(AnnouncementEntity announcementEntity);
 }

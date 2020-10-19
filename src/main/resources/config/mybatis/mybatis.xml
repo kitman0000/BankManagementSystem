@@ -47,6 +47,7 @@
         <mapper resource="com/imbus/bank/excelModule/mapping/excelOutputMapping.xml"/>
         <mapper resource="com/imbus/bank/nettingModule/mapping/nettingMapping.xml"/>
         <mapper resource="com/imbus/bank/logModule/mapping/logMapping.xml"/>
+        <mapper resource="com/imbus/bank/announcementModule/mapping/AnnouncementMapping.xml"/>
     </mappers>
 
 </configuration>

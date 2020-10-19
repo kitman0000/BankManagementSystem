@@ -28,6 +28,7 @@ public class AnnouncementImpl implements IAnnouncement{
     @Override
     public AnnouncementType addAnnouncement(AnnouncementEntity announcementEntity) {
         int userID = UserCommon.getUserBo().getUserID();
+        announcementEntity.setUserID(userID);
         announcementDao.addAnnouncement(announcementEntity);
         return AnnouncementType.HANDLE_ANNOUNCEMENT_SUCCESS;
     }
@@ -45,9 +46,9 @@ public class AnnouncementImpl implements IAnnouncement{
     }
 
     @Override
-    public List<AnnouncementBo> getAnnouncementList(String title, int page) {
+    public List<AnnouncementBo> getAnnouncementList(String title, int page,String userName) {
         int startRow = (page -1) * ROWS_ONE_PAGE;
-        return announcementDao.getAnnouncementList(title,startRow,page);
+        return announcementDao.getAnnouncementList(title,startRow,page,userName);
     }
 
     @Override

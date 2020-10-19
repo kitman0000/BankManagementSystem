@@ -46,8 +46,8 @@ public class AnnouncementCl {
     }
 
     @RequestMapping(value = "/api/announcement/announcementList",method = RequestMethod.GET)
-    public  List<AnnouncementBo> getAnnouncementList(String title,int rowsOnePage){
-        return announcement.getAnnouncementList(title,rowsOnePage);
+    public  List<AnnouncementBo> getAnnouncementList(String title,int rowsOnePage,String userName){
+        return announcement.getAnnouncementList(title,rowsOnePage,userName);
     }
 
 }

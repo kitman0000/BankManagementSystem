@@ -48,6 +48,7 @@
         SELECT tb_user.userName,tb_announcement.* FROM tb_announcement INNER JOIN  tb_user ON tb_announcement.userID=tb_user.userID
         <where>
             title LIKE '%${title}'
+            tb_user.userName LIKE '%${userName}'
         </where>
     </select>
 

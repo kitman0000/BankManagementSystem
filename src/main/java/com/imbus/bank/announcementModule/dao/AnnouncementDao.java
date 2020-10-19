@@ -20,5 +20,5 @@ public interface AnnouncementDao {
 
     void deleteAnnouncement(@Param("annoucementID")int announcementID);
 
-    List<AnnouncementBo> getAnnouncementList(@Param("title") String title, @Param("startRow") int startRow,@Param("rowsOnePage") int rowsOnePage);
+    List<AnnouncementBo> getAnnouncementList(@Param("title") String title, @Param("startRow") int startRow,@Param("rowsOnePage") int rowsOnePage,@Param("userName") String userName);
 }

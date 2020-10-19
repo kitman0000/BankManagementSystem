@@ -11,7 +11,7 @@ public interface IAnnouncement {
 
     AnnouncementType addAnnouncement(AnnouncementEntity announcementEntity);
 
-    List<AnnouncementBo> getAnnouncementList(String title, int page);
+    List<AnnouncementBo> getAnnouncementList(String title, int page, String userName);
 
     List<AnnouncementBo> getAnnouncementDetail(int announcementID);
 

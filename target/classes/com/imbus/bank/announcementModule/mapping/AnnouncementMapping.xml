@@ -2,12 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.imbus.bank.announcementModule.dao.AnnouncementDao">
     <select id="getAnnouncementNumber" resultType="java.lang.Integer">
+<<<<<<< HEAD
         SELECT COUNT(id) FROM tb_announcement
         <where>
             title LIKE '%${title}'
             userName LIKE '%${userName}'
         </where>
     </select>
+=======
+    SELECT COUNT(id) FROM tb_announcement
+    <where>
+        title LIKE '%${title}'
+        userName LIKE '%${userName}'
+    </where>
+</select>
+>>>>>>> 69424e0c6c6c7fc126748c31336a9f38527e5901
 
     <insert id="addAnnouncement">
         INSERT INTO tb_announcement

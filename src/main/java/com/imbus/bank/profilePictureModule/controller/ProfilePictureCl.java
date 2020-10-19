@@ -16,15 +16,15 @@ public class ProfilePictureCl {
     @Autowired
     IProfilePicture profilePicture;
 
-    @RequestMapping(value = "/api/profilePicture",method = RequestMethod.POST)
-    public ProfilePictureType addProfilePicture(ProfilePictureEntity profilePictureEntity) {
-        profilePicture.addProfilePicture(profilePictureEntity);
-        return ProfilePictureType.HANDLE_PICTURE_SUCCESS;
-    }
-
-    @RequestMapping(value = "/api/profilePicture",method = RequestMethod.GET)
-    public List<ProfilePictureBo> getProfilePicture(int userID) {
-        return profilePicture.getProfilePicture(userID);
-    }
+//    @RequestMapping(value = "/api/profilePicture",method = RequestMethod.POST)
+//    public ProfilePictureType addProfilePicture(ProfilePictureEntity profilePictureEntity) {
+//        profilePicture.addProfilePicture(profilePictureEntity);
+//        return ProfilePictureType.HANDLE_PICTURE_SUCCESS;
+//    }
+//
+//    @RequestMapping(value = "/api/profilePicture",method = RequestMethod.GET)
+//    public List<ProfilePictureBo> getProfilePicture(int userID) {
+//        return profilePicture.getProfilePicture(userID);
+//    }
 
 }

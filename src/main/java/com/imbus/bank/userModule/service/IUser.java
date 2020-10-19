@@ -3,6 +3,7 @@ package com.imbus.bank.userModule.service;
 import com.imbus.bank.userModule.bo.UserBo;
 import com.imbus.bank.userModule.bo.UserDetailBo;
 import com.imbus.bank.userModule.entity.UserDetailEntity;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 
 import java.util.List;
 
@@ -21,4 +22,6 @@ public interface IUser {
     String addUserDetail(UserDetailEntity userDetail);
 
     String deleteUser(int userID);
+
+    String getUserPicture();
 }

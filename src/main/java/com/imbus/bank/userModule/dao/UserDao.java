@@ -34,4 +34,7 @@ public interface UserDao {
 
     // 删除单个用户(注销账号)
     void deleteUser(int userID);
+
+    //获取用户头像
+    String getUserPicture(int useID);
 }

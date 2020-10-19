@@ -103,4 +103,12 @@
             userID = #{userID}
         </where>
     </delete>
+
+    <!-- 获取用户头像 -->
+    <select id="getUserPicture" resultType="java.lang.String">
+      SELECT pictureUrl FROM tb_user
+        <where>
+            userID = #{userID}
+        </where>
+    </select>
 </mapper>

@@ -103,4 +103,16 @@ public class UserImpl implements IUser{
         userDao.deleteUser(userID);
         return UserResult.USER_DELETE_SUCCESS.toString();
     }
+
+    /**
+     * 获取用户头像
+     * @param userID 用户ID
+     * @return 头像地址
+     */
+    @Override
+    @RequiresPermissions("user:*")
+    public String getUserPicture() {
+        int userID = UserCommon.getUserBo().getUserID();
+        return userDao.getUserPicture(userID);
+    }
 }

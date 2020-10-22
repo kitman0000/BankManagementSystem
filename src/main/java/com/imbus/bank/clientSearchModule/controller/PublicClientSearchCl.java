@@ -6,6 +6,8 @@ import com.imbus.bank.clientSearchModule.bo.PublicClientDetailBo;
 import com.imbus.bank.clientSearchModule.entity.ClientSearchEntity;
 import com.imbus.bank.clientSearchModule.service.IPrivateClient;
 import com.imbus.bank.clientSearchModule.service.IPublicClient;
+import com.imbus.bank.personalServiceModule.bo.PersonalAccountBo;
+import com.imbus.bank.publicServiceModule.bo.PublicAccountBo;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,5 +39,10 @@ public class PublicClientSearchCl {
     @RequestMapping(value = "/api/clientSearch/publicDetail",method = RequestMethod.GET)
     public PublicClientDetailBo getPublicDetail(int id){
         return publicClient.getPublicDetail(id);
+    }
+
+    @RequestMapping(value = "/api/clientSearch/publicAccount",method = RequestMethod.GET)
+    public List<PublicAccountBo> getPublicAccount(int clientID){
+        return publicClient.getPublicAccount(clientID);
     }
 }

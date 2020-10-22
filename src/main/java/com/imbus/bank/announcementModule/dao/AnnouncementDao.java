@@ -1,5 +1,6 @@
 package com.imbus.bank.announcementModule.dao;
 
+import com.imbus.bank.announcementModule.bo.AnnouncementDetailBo;
 import com.imbus.bank.announcementModule.entity.AnnouncementEntity;
 import com.imbus.bank.announcementModule.bo.AnnouncementBo;
 import org.apache.ibatis.annotations.Mapper;
@@ -12,13 +13,13 @@ import java.util.List;
 public interface AnnouncementDao {
     int getAnnouncementNumber(@Param("announcementEntity") AnnouncementEntity announcementEntity);
 
-    void addAnnouncement(@Param("annoucementEntity") AnnouncementEntity announcementEntity);
+    void addAnnouncement(@Param("announcementEntity") AnnouncementEntity announcementEntity);
 
-    List<AnnouncementBo> getAnnouncementDetail(@Param("annoucementID")int announcementID);
+    AnnouncementDetailBo getAnnouncementDetail(@Param("announcementID")int announcementID);
 
-    void editAnnouncement(@Param("annoucementEntity") AnnouncementEntity announcementEntity);
+    void editAnnouncement(@Param("announcementEntity") AnnouncementEntity announcementEntity);
 
-    void deleteAnnouncement(@Param("annoucementID")int announcementID);
+    void deleteAnnouncement(@Param("announcementID")int announcementID);
 
     List<AnnouncementBo> getAnnouncementList(@Param("title") String title, @Param("startRow") int startRow,@Param("rowsOnePage") int rowsOnePage,@Param("userName") String userName);
 }

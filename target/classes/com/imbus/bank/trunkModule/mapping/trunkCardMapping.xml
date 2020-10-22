@@ -31,21 +31,23 @@
 
     <!-- 从尾箱查找一张一类银行卡 -->
     <select id="selectTrunkFirstClassCard" resultType="java.lang.String">
-        SELECT account FROM tb_trunk_card limit 1
+        SELECT account FROM tb_trunk_card
         <where>
             trunkID = #{trunkID}
             AND
             left(account,6) = 611010
         </where>
+        limit 1
     </select>
 
     <!-- 从尾箱查找一张二类银行卡 -->
     <select id="selectTrunkSecondClassCard" resultType="java.lang.String">
-        SELECT account FROM tb_trunk_card limit 1
+        SELECT account FROM tb_trunk_card
         <where>
             trunkID = #{trunkID}
             AND
             left(account,6) = 611011
         </where>
+        limit 1
     </select>
 </mapper>

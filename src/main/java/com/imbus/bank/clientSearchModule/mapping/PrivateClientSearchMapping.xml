@@ -3,8 +3,10 @@
 <mapper namespace="com.imbus.bank.clientSearchModule.dao.PrivateClientSearchDao">
 
     <select id="getPrivateClientPage" resultType="java.lang.Integer">
-        SELECT count(id) FROM tb_personal_client WHERE
-        <include refid="privateSearchCondition"/>
+        SELECT count(id) FROM tb_personal_client
+        <where>
+          <include refid="privateSearchCondition"/>
+        </where>
     </select>
 
     <select id="getPrivateList" resultType="com.imbus.bank.clientSearchModule.bo.PrivateClientBo">

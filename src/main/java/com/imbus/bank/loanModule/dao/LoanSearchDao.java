@@ -19,9 +19,9 @@ public interface LoanSearchDao {
 
     List<LoanBo> getLoanList(@Param("loanSearchEntity") LoanSearchEntity loanSearchEntity, @Param("startRow") int startRow, @Param("rowsOnePage") int rowsOnePage);
 
-    int getUnhandledLoanPage(LoanSearchEntity loanSearchEntity);
+    int getUnhandledLoanPage(@Param("loanSearchEntity") LoanSearchEntity loanSearchEntity);
 
-    List<LoanBo> getUnhandledLoanList(LoanSearchEntity loanSearchEntity);
+    List<LoanBo> getUnhandledLoanList(@Param("loanSearchEntity") LoanSearchEntity loanSearchEntity, @Param("startRow") int startRow, @Param("rowsOnePage") int rowsOnePage);
 
     LoanBo getLoanDetail(int id);
 

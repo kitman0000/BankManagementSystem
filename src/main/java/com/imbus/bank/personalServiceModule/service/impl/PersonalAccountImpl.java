@@ -45,20 +45,17 @@ public class PersonalAccountImpl implements IPersonalAccount {
         String authNo = "";
         authNo = DateUtil.formatLongyyyyMMddHHmmssSSSFormatByDate();
 
-
         accountEntity.setAuthDate(DateUtil.getDatestamp());
 
-        /* 对应不同的账户类型，使用不同的bin码 */
-        String binCode = "";
+        String bankAccount = "";
 
         int trunkID;
         trunkID = trunkCash.getUserTrunk();
         switch (accountEntity.getAccountType()){
-            case "1":binCode = trunkCardDao.selectTrunkFirstClassCard(trunkID);break;
-            case "2":binCode = trunkCardDao.selectTrunkSecondClassCard(trunkID);break;
+            case "1":bankAccount = trunkCardDao.selectTrunkFirstClassCard(trunkID);break;
+            case "2":bankAccount = trunkCardDao.selectTrunkSecondClassCard(trunkID);break;
         }
 
-        String bankAccount = bankAccountCommon.getNewBankAccountNumber(binCode);
         accountEntity.setId(bankAccount);
 
         int agencyID = agencyCommon.getUserAgency();

@@ -86,19 +86,19 @@
     </delete>
 
     <select id="getPersonalDepositRate" resultType="com.imbus.bank.rateModule.bo.DepositRateBo">
-        SELECT * FROM tb_personal_rate
+        SELECT * FROM tb_personal_rate ORDER BY `month` desc
     </select>
 
     <select id="getPublicDepositRate" resultType="com.imbus.bank.rateModule.bo.DepositRateBo">
-        SELECT * FROM tb_public_rate
+        SELECT * FROM tb_public_rate ORDER BY `month` desc
     </select>
 
     <select id="getPersonalLoanRate" resultType="com.imbus.bank.rateModule.bo.LoanRateBo">
-        SELECT * FROM tb_loan_personal_rate
+        SELECT * FROM tb_loan_personal_rate  ORDER BY startMonth desc
     </select>
 
     <select id="getPublicLoanRate" resultType="com.imbus.bank.rateModule.bo.LoanRateBo">
-        SELECT * FROM tb_loan_public_rate
+        SELECT * FROM tb_loan_public_rate ORDER BY startMonth desc
     </select>
 
 </mapper>

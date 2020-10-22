@@ -55,6 +55,32 @@
         </where>
     </select>
 
+    <!-- 获取未处理的贷款申请数量 -->
+    <select id="getUnhandledLoanPage" resultType="java.lang.Integer">
+        SELECT count(id) FROM tb_loan_apply
+        <where>
+            <include refid="loanCondition"/>
+        </where>
+    </select>
+
+    <select id="getUnhandledLoanList" resultType="com.imbus.bank.loanModule.bo.LoanBo">
+        SELECT id,account,amount,loanDate,rate,`usage`,guaranteeType,guaranteeInfo
+        FROM tb_loan_apply
+        <where>
+            <include refid="loanCondition"/>
+            AND handleStatus = 0
+            <!-- 分页的条件 -->
+            AND id Not In (Select * from (Select id From tb_loan_apply
+            <where>
+                <!-- 筛选条件 -->
+                <include refid="loanCondition"/>
+                AND handleStatus = 0
+            </where>
+            Limit #{startRow})as t) Limit #{rowsOnePage}
+            <!-- 分页的条件结束-->
+        </where>
+    </select>
+
     <sql id="loanCondition">
         <if test="loanSearchEntity.accountID != ''">
             account = #{loanSearchEntity.accountID}

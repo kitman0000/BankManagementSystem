@@ -1,6 +1,7 @@
 package com.imbus.bank.announcementModule.service.impl;
 
 import com.imbus.bank.announcementModule.bo.AnnouncementBo;
+import com.imbus.bank.announcementModule.bo.AnnouncementDetailBo;
 import com.imbus.bank.announcementModule.dao.AnnouncementDao;
 import com.imbus.bank.announcementModule.entity.AnnouncementEntity;
 import com.imbus.bank.announcementModule.service.IAnnouncement;
@@ -48,11 +49,11 @@ public class AnnouncementImpl implements IAnnouncement{
     @Override
     public List<AnnouncementBo> getAnnouncementList(String title, int page,String userName) {
         int startRow = (page -1) * ROWS_ONE_PAGE;
-        return announcementDao.getAnnouncementList(title,startRow,page,userName);
+        return announcementDao.getAnnouncementList(title,startRow,ROWS_ONE_PAGE,userName);
     }
 
     @Override
-    public List<AnnouncementBo> getAnnouncementDetail(int announcementID){
+    public AnnouncementDetailBo getAnnouncementDetail(int announcementID){
         return announcementDao.getAnnouncementDetail(announcementID);
     }
 

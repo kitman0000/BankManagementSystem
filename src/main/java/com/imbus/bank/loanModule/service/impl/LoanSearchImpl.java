@@ -23,25 +23,29 @@ public class LoanSearchImpl implements ILoanSearch {
     @Override
     public int getLoanPage(LoanSearchEntity loanSearchEntity) {
         int amount = loanSearchDao.getLoanPage(loanSearchEntity);
-        return PageDivideUtil.getCountOfPages(amount,ROWS_ONE_PAGE);
+        return PageDivideUtil.getCountOfPages(amount, ROWS_ONE_PAGE);
     }
 
     @Override
     public List<LoanBo> getLoanList(LoanSearchEntity loanSearchEntity, int page) {
-        int startRow = (page -1) * ROWS_ONE_PAGE;
-        return loanSearchDao.getLoanList(loanSearchEntity,startRow,ROWS_ONE_PAGE);
+        int startRow = (page - 1) * ROWS_ONE_PAGE;
+        return loanSearchDao.getLoanList(loanSearchEntity, startRow, ROWS_ONE_PAGE);
     }
 
     @Override
     public int getUnhandledLoanPage(LoanSearchEntity loanSearchEntity) {
-        loanSearchEntity.setRepaymentStatus(0);
-        return getLoanPage(loanSearchEntity);
+        // 将还款状态筛选设为-1，不进行筛选
+        loanSearchEntity.setRepaymentStatus(-1);
+        return PageDivideUtil.getCountOfPages(loanSearchDao.getUnhandledLoanPage(loanSearchEntity), ROWS_ONE_PAGE);
     }
 
     @Override
     public List<LoanBo> getUnhandledLoanList(LoanSearchEntity loanSearchEntity, int page) {
-        loanSearchEntity.setRepaymentStatus(0);
-        return getLoanList(loanSearchEntity,page);
+        // 将还款状态筛选设为-1，不进行筛选
+
+        int startRow = (page - 1) * ROWS_ONE_PAGE;
+        loanSearchEntity.setRepaymentStatus(-1);
+        return loanSearchDao.getUnhandledLoanList(loanSearchEntity, startRow, ROWS_ONE_PAGE);
     }
 
     @Override

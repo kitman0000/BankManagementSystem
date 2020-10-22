@@ -59,6 +59,7 @@ public class LoanImpl implements ILoan{
     @Override
     public LoanResult requestLoan(LoanEntity loanEntity) {
         int month = loanEntity.getMonth();
+        loanEntity.setPwd(BankAccountCommon.encodePwd(loanEntity.getPwd()));
 
         if(loanEntity.getType() == PERSONAL){
             // 个人贷款
@@ -101,7 +102,9 @@ public class LoanImpl implements ILoan{
 
         // 检查存款准备金
         BigDecimal totalLoan = loanDao.getTotalLoan();
-        if(totalLoan.add(loanApplyBo.getAmount()).compareTo(bankConfigDao.getDepositReserve()) == 1){
+
+        // 如果存款准备金不足且同意贷款
+        if(totalLoan.add(loanApplyBo.getAmount()).compareTo(bankConfigDao.getDepositReserve()) == 1 && result != 2){
             return HandleLoanResult.NO_DEPOSIT_RESERVE;
         }
 

@@ -1,6 +1,7 @@
 package com.imbus.bank.announcementModule.service;
 
 import com.imbus.bank.announcementModule.bo.AnnouncementBo;
+import com.imbus.bank.announcementModule.bo.AnnouncementDetailBo;
 import com.imbus.bank.announcementModule.entity.AnnouncementEntity;
 import com.imbus.bank.announcementModule.type.AnnouncementType;
 
@@ -13,7 +14,7 @@ public interface IAnnouncement {
 
     List<AnnouncementBo> getAnnouncementList(String title, int page, String userName);
 
-    List<AnnouncementBo> getAnnouncementDetail(int announcementID);
+    AnnouncementDetailBo getAnnouncementDetail(int announcementID);
 
     AnnouncementType editAnnouncement(AnnouncementEntity announcementEntity);
 

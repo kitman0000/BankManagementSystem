@@ -2,10 +2,10 @@ package com.imbus.bank.announcementModule.controller;
 
 
 import com.imbus.bank.announcementModule.bo.AnnouncementBo;
+import com.imbus.bank.announcementModule.bo.AnnouncementDetailBo;
 import com.imbus.bank.announcementModule.entity.AnnouncementEntity;
 import com.imbus.bank.announcementModule.service.IAnnouncement;
 import com.imbus.bank.announcementModule.type.AnnouncementType;
-import com.imbus.bank.common.UserCommon;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +31,7 @@ public class AnnouncementCl {
     }
 
     @RequestMapping(value = "/api/announcement/announcementDetail",method = RequestMethod.GET)
-    public List<AnnouncementBo> getAnnouncementDetail(int announcementID){
+    public AnnouncementDetailBo getAnnouncementDetail(int announcementID){
         return announcement.getAnnouncementDetail(announcementID);
     }
 
@@ -46,8 +46,8 @@ public class AnnouncementCl {
     }
 
     @RequestMapping(value = "/api/announcement/announcementList",method = RequestMethod.GET)
-    public  List<AnnouncementBo> getAnnouncementList(String title,int rowsOnePage,String userName){
-        return announcement.getAnnouncementList(title,rowsOnePage,userName);
+    public  List<AnnouncementBo> getAnnouncementList(String title,int page,String userName){
+        return announcement.getAnnouncementList(title,page,userName);
     }
 
 }

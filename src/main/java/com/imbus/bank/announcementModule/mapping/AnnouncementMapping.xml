@@ -2,31 +2,35 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.imbus.bank.announcementModule.dao.AnnouncementDao">
     <select id="getAnnouncementNumber" resultType="java.lang.Integer">
-        SELECT COUNT(id) FROM tb_announcement
+        SELECT COUNT(tb_announcement.id) FROM tb_announcement INNER JOIN tb_user ON tb_announcement.userID=tb_user.userID
         <where>
-            title LIKE '%${title}'
-            userName LIKE '%${userName}'
+            <if test="announcementEntity.title != ''">
+              title LIKE '%${announcementEntity.title}%'
+            </if>
+            <if test="announcementEntity.userName != ''">
+                AND tb_user.userName LIKE '%${announcementEntity.userName}%'
+            </if>
         </where>
     </select>
 
     <insert id="addAnnouncement">
         INSERT INTO tb_announcement
         <set>
-            title = #{title}
-            userID = #{userID}
-            content = #{content}
+            title = #{announcementEntity.title},
+            userID = #{announcementEntity.userID},
+            content = #{announcementEntity.content}
         </set>
     </insert>
 
     <update id="editAnnouncement">
         UPDATE tb_announcement
         <set>
-            title = #{title}
-            userName = #{userName}
-            content = #{content}
+            title = #{announcementEntity.title},
+            userName = #{announcementEntity.userName},
+            content = #{announcementEntity.content}
         </set>
         <where>
-            id = #{announcementID}
+            id = #{announcementEntity.id}
         </where>
     </update>
 
@@ -37,18 +41,29 @@
         </where>
     </delete>
 
-    <select id="getAnnouncementDetail" resultType="com.imbus.bank.announcementModule.bo.AnnouncementBo">
-        SELECT * FROM tb_announcement
+    <select id="getAnnouncementDetail" resultType="com.imbus.bank.announcementModule.bo.AnnouncementDetailBo">
+        SELECT *,tb_user.username as author FROM tb_announcement,tb_user
         <where>
             id = #{announcementID}
+            AND tb_user.userID = tb_announcement.userID
         </where>
     </select>
 
     <select id="getAnnouncementList" resultType="com.imbus.bank.announcementModule.bo.AnnouncementBo">
-        SELECT tb_user.userName,tb_announcement.* FROM tb_announcement INNER JOIN  tb_user ON tb_announcement.userID=tb_user.userID
+        SELECT tb_user.userName as author,tb_announcement.* FROM tb_announcement INNER JOIN  tb_user ON tb_announcement.userID=tb_user.userID
         <where>
-            title LIKE '%${title}'
-            tb_user.userName LIKE '%${userName}'
+            title LIKE '%${title}%' AND
+            tb_user.userName LIKE '%${userName}%'
+
+            <!-- 分页的条件 -->
+            AND tb_announcement.id Not In (Select * from (Select id From tb_announcement  INNER JOIN  tb_user ON tb_announcement.userID=tb_user.userID
+            <where>
+                <!-- 筛选条件 -->
+                title LIKE '%${title}' AND
+                tb_user.userName LIKE '%${userName}%'
+            </where>
+            Limit #{startRow})as t) Limit #{rowsOnePage}
+            <!-- 分页的条件结束-->
         </where>
     </select>
 

@@ -9,6 +9,7 @@ import com.imbus.bank.trunkModule.type.EditTrunkResult;
 import com.imbus.bank.trunkModule.type.SetTellerResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,26 +26,31 @@ public class TrunkCl {
     @Autowired
     private ITrunk trunk;
 
+    @RequiresPermissions("trunk:manage")
     @RequestMapping(value = "/api/trunk/trunk",method = RequestMethod.POST)
     public AddTrunkResult addTrunk(TrunkEntity trunkEntity) {
         return trunk.addTrunk(trunkEntity);
     }
 
+    @RequiresPermissions("trunk:manage")
     @RequestMapping(value = "/api/trunk/trunk",method = RequestMethod.PUT)
     public EditTrunkResult editTrunk(TrunkEntity trunkEntity) {
         return trunk.editTrunk(trunkEntity);
     }
 
+    @RequiresPermissions("trunk:manage")
     @RequestMapping(value = "/api/trunk/trunk",method = RequestMethod.DELETE)
     public DeleteTrunkResult deleteTrunk(int id) {
         return trunk.deleteTrunk(id);
     }
 
+    @RequiresPermissions("trunk:manage")
     @RequestMapping(value = "/api/trunk/teller",method = RequestMethod.POST)
     public SetTellerResult setTrunkTeller(int id,int userID){
         return trunk.setTrunkTeller(id,userID);
     }
 
+    @RequiresPermissions("trunk:manage")
     @ApiOperation(value = "获取当前机构的尾箱")
     @RequestMapping(value = "/api/trunk/trunk",method = RequestMethod.GET)
     public List<TrunkBo> getAgencyTrunk(){

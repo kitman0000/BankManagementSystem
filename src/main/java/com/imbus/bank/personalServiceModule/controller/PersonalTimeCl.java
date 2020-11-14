@@ -10,6 +10,7 @@ import com.imbus.bank.componet.type.TimeDepositResult;
 import com.imbus.bank.componet.bo.TimeToDemandBo;
 import com.imbus.bank.personalServiceModule.service.IPersonalTime;
 import io.swagger.annotations.Api;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,7 @@ public class PersonalTimeCl implements ITimeService {
 
     @Transactional
     @Override
+    @RequiresPermissions("personal:time:deposit")
     @RequestMapping(value = "/api/personalTime/deposit",method = RequestMethod.POST)
     public TimeDepositResult timeDeposit(TimeDepositEntity timeDepositEntity) {
         return personalTime.timeDeposit(timeDepositEntity);
@@ -33,6 +35,7 @@ public class PersonalTimeCl implements ITimeService {
 
     @Transactional
     @Override
+    @RequiresPermissions("personal:time:withdraw")
     @RequestMapping(value = "/api/personalTime/withdraw",method = RequestMethod.POST)
     public TimeWithdrawBo timeWithdraw(TimeWithdrawEntity timeWithdrawEntity) {
         return personalTime.timeWithdraw(timeWithdrawEntity);

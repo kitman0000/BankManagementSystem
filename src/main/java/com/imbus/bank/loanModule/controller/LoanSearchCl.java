@@ -5,6 +5,7 @@ import com.imbus.bank.loanModule.bo.LoanSearchEntity;
 import com.imbus.bank.loanModule.service.ILoanSearch;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,24 +24,28 @@ public class LoanSearchCl {
     @Autowired
     private ILoanSearch loanSearch;
 
+    @RequiresPermissions("loan:get")
     @ApiOperation(value = "获取贷款页数")
     @RequestMapping(value = "/api/loanSearch/loanPage",method = RequestMethod.GET)
     public int getLoanPage(LoanSearchEntity loanSearchEntity){
         return loanSearch.getLoanPage(loanSearchEntity);
     }
 
+    @RequiresPermissions("loan:get")
     @ApiOperation(value = "获取贷款列表")
     @RequestMapping(value = "/api/loanSearch/loan",method = RequestMethod.GET)
     public List<LoanBo> getLoanList(LoanSearchEntity loanSearchEntity,int page) {
         return loanSearch.getLoanList(loanSearchEntity,page);
     }
 
+    @RequiresPermissions("loan:handleLoan")
     @ApiOperation(value = "获取未处理的贷款页数")
     @RequestMapping(value = "/api/loanSearch/unhandledLoanPage",method = RequestMethod.GET)
     public int getUnhandledLoanPage(LoanSearchEntity loanSearchEntity){
         return loanSearch.getUnhandledLoanPage(loanSearchEntity);
     }
 
+    @RequiresPermissions("loan:handleLoan")
     @ApiOperation(value = "获取未处理的贷款列表")
     @RequestMapping(value = "/api/loanSearch/unhandledLoan",method = RequestMethod.GET)
     public List<LoanBo> getUnhandledLoanList(LoanSearchEntity loanSearchEntity,int page){

@@ -18,4 +18,6 @@ public class TrunkBo {
     private BigDecimal cash;
 
     private int number;
+
+    private String tellerName;
 }

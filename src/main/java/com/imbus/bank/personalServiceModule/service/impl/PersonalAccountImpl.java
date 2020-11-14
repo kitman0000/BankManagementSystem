@@ -11,6 +11,9 @@ import com.imbus.bank.componet.type.CreateAccountResult;
 import com.imbus.bank.personalServiceModule.dao.PersonalAccountDao;
 import com.imbus.bank.personalServiceModule.entity.PersonalAccountEntity;
 import com.imbus.bank.personalServiceModule.service.IPersonalAccount;
+import com.imbus.bank.roleModule.bo.PermissionBo;
+import com.imbus.bank.roleModule.dao.PermissionDao;
+import com.imbus.bank.roleModule.dao.RoleDao;
 import com.imbus.bank.trunkModule.dao.TrunkCardDao;
 import com.imbus.bank.trunkModule.dao.TrunkCashDao;
 import com.imbus.bank.trunkModule.service.impl.TrunkCashImpl;
@@ -18,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 
 @Service
@@ -36,6 +40,12 @@ public class PersonalAccountImpl implements IPersonalAccount {
 
     @Autowired
     private TrunkCashImpl trunkCash;
+
+    @Autowired
+    private RoleDao roleDao;
+
+    @Autowired
+    private PermissionDao permissionDao;
 
     @Override
     public CreateAccountResult createAccount(PersonalAccountEntity accountEntity) {
@@ -100,5 +110,21 @@ public class PersonalAccountImpl implements IPersonalAccount {
         }
         personalAccountDao.cancelAccount(cancelAccountEntity.getAccountId());
         return CancelAccountResult.CANCEL_ACCOUNT_SUCCESS;
+    }
+
+    @Override
+    public boolean isAllowCreateAccount(){
+        int userID = UserCommon.getUserBo().getUserID();
+        int roleID = roleDao.getUserRole(userID).getRoleID();
+
+        List<PermissionBo> permissionList = permissionDao.getRolePermission(roleID);
+
+        for (PermissionBo permission:permissionList){
+            if(permission.getPermissionName().equals("personal.account.create")){
+                return true;
+            }
+        }
+
+        return false;
     }
 }

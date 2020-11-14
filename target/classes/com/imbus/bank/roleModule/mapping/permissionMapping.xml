@@ -9,6 +9,7 @@
             roleID = #{roleID}
         </where>
         AND permissionID = tb_permission.id
+        ORDER BY permissionID
     </select>
 
     <!-- 获取所有权限 -->

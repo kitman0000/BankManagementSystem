@@ -1,36 +1,49 @@
 package com.imbus.bank.rateModule.service;
 
-import com.imbus.bank.rateModule.bo.DepositRateBo;
+import com.imbus.bank.rateModule.bo.TimeRateBo;
 import com.imbus.bank.rateModule.bo.LoanRateBo;
-import com.imbus.bank.rateModule.entity.DepositRateEntity;
+import com.imbus.bank.rateModule.entity.TimeRateEntity;
 import com.imbus.bank.rateModule.entity.LoanRateEntity;
 import com.imbus.bank.rateModule.type.RateResult;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
  * Created by zhong on 2020-9-7.
  */
 public interface IRate {
-    List<DepositRateBo> getPersonalDepositRate();
+    // 存款
 
-    List<DepositRateBo> getPublicDepositRate();
+    List<TimeRateBo> getPersonalTimeRate();
+
+    List<TimeRateBo> getPublicTimeRate();
 
     List<LoanRateBo> getPersonalLoanRate();
 
     List<LoanRateBo> getPublicLoanRate();
 
-    RateResult addPersonalDepositRate(DepositRateEntity depositRateEntity);
+    RateResult addPersonalTimeRate(TimeRateEntity timeRateEntity);
 
-    RateResult editPersonalDepositRate(int id,DepositRateEntity depositRateEntity);
+    RateResult editPersonalTimeRate(int id, TimeRateEntity timeRateEntity);
 
-    RateResult deletePersonalDepositRate(int id);
+    RateResult deletePersonalTimeRate(int id);
 
-    RateResult addPublicDepositRate(DepositRateEntity depositRateEntity);
+    RateResult addPublicTimeRate(TimeRateEntity timeRateEntity);
 
-    RateResult editPublicDepositRate(int id,DepositRateEntity depositRateEntity);
+    RateResult editPublicTimeRate(int id, TimeRateEntity timeRateEntity);
 
-    RateResult deletePublicDepositRate(int id);
+    RateResult deletePublicTimeRate(int id);
+
+    BigDecimal getPersonalDepositRate();
+
+    RateResult setPersonalDepositRate(BigDecimal rate);
+
+    BigDecimal getPublicDepositRate();
+
+    RateResult setPublicDepositRate(BigDecimal rate);
+
+    // 贷款
 
     RateResult addPersonalLoanRate(LoanRateEntity loanRateEntity);
 
@@ -39,4 +52,5 @@ public interface IRate {
     RateResult addPublicLoanRate(LoanRateEntity loanRateEntity);
 
     RateResult deletePublicLoanRate(int id);
+
 }

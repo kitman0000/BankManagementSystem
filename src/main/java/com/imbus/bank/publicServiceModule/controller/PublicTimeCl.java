@@ -10,6 +10,7 @@ import com.imbus.bank.componet.type.TimeDepositResult;
 import com.imbus.bank.componet.bo.TimeToDemandBo;
 import com.imbus.bank.publicServiceModule.service.IPublicTime;
 import io.swagger.annotations.Api;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +33,7 @@ public class PublicTimeCl implements ITimeService {
 
     @Transactional
     @Override
+    @RequiresPermissions("public:time:deposit")
     @RequestMapping(value = "/api/publicTime/deposit",method = RequestMethod.POST)
     public TimeDepositResult timeDeposit(TimeDepositEntity timeDepositEntity) {
         return publicTime.timeDeposit(timeDepositEntity);
@@ -39,6 +41,7 @@ public class PublicTimeCl implements ITimeService {
 
     @Transactional
     @Override
+    @RequiresPermissions("public:time:withdraw")
     @RequestMapping(value = "/api/publicTime/withdraw",method = RequestMethod.POST)
     public TimeWithdrawBo timeWithdraw(TimeWithdrawEntity timeWithdrawEntity) {
         return publicTime.timeWithdraw(timeWithdrawEntity);
@@ -46,6 +49,7 @@ public class PublicTimeCl implements ITimeService {
 
     @Transactional
     @Override
+    @RequiresPermissions("public:time:withdraw")
     @RequestMapping(value = "/api/publicTime/deposit",method = RequestMethod.GET)
     public List<TimeDepositItemBo> getTimeDeposit(String accountID) {
         return publicTime.getTimeDeposit(accountID);
@@ -53,6 +57,7 @@ public class PublicTimeCl implements ITimeService {
 
     @Transactional
     @Override
+    @RequiresPermissions("public:time:withdraw")
     @RequestMapping(value = "/api/publicTime/demand",method = RequestMethod.POST)
     public TimeToDemandBo timeToDemand(TimeToDemandEntity timeToDemandEntity) {
         return publicTime.timeToDemand(timeToDemandEntity);

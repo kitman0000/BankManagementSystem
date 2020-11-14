@@ -40,7 +40,7 @@
         SELECT id as menuID,title as menuTitle,permissionID,href as menuHref
         FROM tb_menu
         <where>
-            permissionID = #{permissionID}
+            parentMenuID = #{parentMenuID}
         </where>
     </select>
 </mapper>

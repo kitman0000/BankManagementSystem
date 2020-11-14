@@ -4,6 +4,7 @@ import com.imbus.bank.trunkModule.bo.TrunkCardBo;
 import com.imbus.bank.trunkModule.service.ITrunkCard;
 import com.imbus.bank.trunkModule.type.TrunkCardResult;
 import io.swagger.annotations.Api;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,17 +23,20 @@ public class TrunkCardCl{
     private ITrunkCard trunkCard;
 
     @Transactional
+    @RequiresPermissions("trunk:manage")
     @RequestMapping(value = "/api/trunkCard/card",method = RequestMethod.POST)
     public TrunkCardResult addTrunkCard(int trunkID) {
         return trunkCard.addTrunkCard(trunkID);
     }
 
     @Transactional
+    @RequiresPermissions("trunk:manage")
     @RequestMapping(value = "/api/trunkCard/card",method = RequestMethod.DELETE)
     public TrunkCardResult removeTrunkCard(int trunkID, String accountID) {
         return trunkCard.removeTrunkCard(trunkID,accountID);
     }
 
+    @RequiresPermissions("trunk:manage")
     @RequestMapping(value = "/api/trunkCard/card",method = RequestMethod.GET)
     public List<TrunkCardBo> getUserTrunkCard(int userID) {
         return trunkCard.getUserTrunkCard(userID);

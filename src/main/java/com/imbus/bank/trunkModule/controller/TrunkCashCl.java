@@ -3,6 +3,7 @@ package com.imbus.bank.trunkModule.controller;
 import com.imbus.bank.trunkModule.service.ITrunkCash;
 import com.imbus.bank.trunkModule.type.UpdateTrunkCashResult;
 import io.swagger.annotations.Api;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,12 +22,14 @@ public class TrunkCashCl {
     private ITrunkCash trunkCash;
 
     @Transactional
+    @RequiresPermissions("trunk:manage")
     @RequestMapping(value = "/api/trunkCash/addCash",method = RequestMethod.POST)
     public UpdateTrunkCashResult addTrunkCash(int id, BigDecimal amount) {
         return trunkCash.addTrunkCash(id,amount);
     }
 
     @Transactional
+    @RequiresPermissions("trunk:manage")
     @RequestMapping(value = "/api/trunkCash/removeCash",method = RequestMethod.POST)
     public UpdateTrunkCashResult removeTrunkCash(int id, BigDecimal amount) {
         return trunkCash.removeTrunkCash(id,amount);

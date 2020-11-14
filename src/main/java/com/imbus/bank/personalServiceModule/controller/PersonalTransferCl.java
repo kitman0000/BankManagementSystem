@@ -1,10 +1,9 @@
-package com.imbus.bank.publicServiceModule.controller;
+package com.imbus.bank.personalServiceModule.controller;
 
 import com.imbus.bank.componet.Entity.TransferEntity;
 import com.imbus.bank.componet.ITransferService;
 import com.imbus.bank.componet.type.TransferResult;
-import com.imbus.bank.publicServiceModule.service.IPublicTransfer;
-import io.swagger.annotations.Api;
+import com.imbus.bank.personalServiceModule.service.IPersonalTransfer;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,20 +12,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Created by zhong on 2020-8-25.
+ * Created by zhong on 2020-11-12.
  */
-@Api(description = "对公转账业务接口")
 @RestController
-public class PublicTransferCl implements ITransferService{
+public class PersonalTransferCl implements ITransferService {
 
     @Autowired
-    private IPublicTransfer publicTransfer;
+    private IPersonalTransfer personalTransfer;
 
     @Override
     @Transactional
-    @RequiresPermissions("public:transfer")
-    @RequestMapping(value = "/api/publicTransfer/transfer",method = RequestMethod.POST)
+    @RequiresPermissions("personal:transfer")
+    @RequestMapping(value = "/api/personalTransfer/transfer",method = RequestMethod.POST)
     public TransferResult transfer(TransferEntity transferEntity) {
-        return publicTransfer.transfer(transferEntity);
+        return personalTransfer.transfer(transferEntity);
     }
 }

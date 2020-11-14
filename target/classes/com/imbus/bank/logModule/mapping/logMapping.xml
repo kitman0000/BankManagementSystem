@@ -32,7 +32,10 @@
             <where>
               <include refid="logCondition"/>
             </where>
-            Limit #{startRow})as t) Limit #{rowsOnePage}
+            ORDER BY id DESC
+            Limit #{startRow})as t)
+            ORDER BY id DESC
+            Limit #{rowsOnePage}
             <!-- 分页的条件结束-->
         </where>
     </select>

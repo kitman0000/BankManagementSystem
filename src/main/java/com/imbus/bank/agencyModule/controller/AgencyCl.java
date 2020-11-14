@@ -9,6 +9,7 @@ import com.imbus.bank.agencyModule.type.AgencyDeleteType;
 import com.imbus.bank.agencyModule.type.AgencyEditType;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +33,7 @@ public class AgencyCl {
     private IAgency agency;
 
     @ApiOperation(value = "添加机构",notes = "不要传id 返回:AGENCY_ADD_SUCCESS, AGENCY_ADD_FAILED")
+    @RequiresPermissions("agency:manage")
     @RequestMapping(value = "api/agency/agency",method = RequestMethod.POST)
     public AgencyAddType addAgency(AgencyEntity agencyEntity){
         return agency.addAgency(agencyEntity);
@@ -51,12 +53,14 @@ public class AgencyCl {
 
     @Transactional
     @ApiOperation(value = "删除机构",notes = "支持多项删除，当机构有现金时删除失败，返回AGENCY_DELETE_SUCCESS,AGENCY_DELETE_FAILED")
+    @RequiresPermissions("agency:manage")
     @RequestMapping(value = "api/agency/agency",method = RequestMethod.DELETE)
     public AgencyDeleteType deleteAgency(int[] agencyID){
         return agency.deleteAgency(agencyID);
     }
 
     @ApiOperation(value = "编辑机构",notes = "除需要id之外，其他参数与POST方法相同")
+    @RequiresPermissions("agency:manage")
     @RequestMapping(value = "api/agency/agency",method = RequestMethod.PUT)
     public AgencyEditType editAgency(AgencyEntity agencyEntity){
         return agency.editAgency(agencyEntity);

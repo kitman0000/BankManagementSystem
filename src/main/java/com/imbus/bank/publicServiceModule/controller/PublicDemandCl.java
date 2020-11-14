@@ -9,6 +9,7 @@ import com.imbus.bank.componet.type.DemandToTimeResult;
 import com.imbus.bank.componet.type.DemandWithdrawResult;
 import com.imbus.bank.publicServiceModule.service.IPublicDemand;
 import io.swagger.annotations.Api;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +29,7 @@ public class PublicDemandCl implements IDemandService{
 
     @Override
     @Transactional
+    @RequiresPermissions("public:demand:deposit")
     @RequestMapping(value = "/api/publicDemand/deposit",method = RequestMethod.POST)
     public DemandDepositResult demandDeposit(DemandDepositEntity demandDepositEntity) {
         return publicDemand.demandDeposit(demandDepositEntity);
@@ -35,6 +37,7 @@ public class PublicDemandCl implements IDemandService{
 
     @Override
     @Transactional
+    @RequiresPermissions("public:demand:withdraw")
     @RequestMapping(value = "/api/publicDemand/withDraw",method = RequestMethod.POST)
     public DemandWithdrawResult demandWithdraw(DemandWithdrawEntity demandWithdrawEntity) {
         return publicDemand.demandWithdraw(demandWithdrawEntity);
@@ -42,6 +45,7 @@ public class PublicDemandCl implements IDemandService{
 
     @Override
     @Transactional
+    @RequiresPermissions("public:demand:toTime")
     @RequestMapping(value = "/api/publicDemand/time",method = RequestMethod.POST)
     public DemandToTimeResult demandToTime(DemandToTimeEntity demandToTimeEntity) {
         return publicDemand.demandToTime(demandToTimeEntity);

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imbus.bank.dashboardModel.dao.DashboardDao">
+
+    <!-- 获取昨日资产，债务 -->
+    <select id="getAssetDebt" resultType="com.imbus.bank.dashboardModel.bo.AssetDebtCashBo">
+        SELECT lastAsset as asset,LastDebt as debt FROM tb_bank_config
+    </select>
+
+    <!-- 获取昨日现金 -->
+    <select id="getCash" resultType="java.math.BigDecimal">
+        SELECT sum(cash) FROM tb_agency_backup
+    </select>
+
+    <!-- 获取近20日现金流水账数额 -->
+    <select id="getBillAmount" resultType="com.imbus.bank.dashboardModel.bo.BillAmountBo">
+        SELECT amount FROM tb_netting ORDER BY id DESC LIMIT 20
+    </select>
+
+    <!-- 获取近20日现金流水账数量 -->
+    <select id="getBillCount" resultType="com.imbus.bank.dashboardModel.bo.BillCountBo">
+        SELECT netCount FROM tb_netting ORDER BY id DESC LIMIT 20
+    </select>
+
+    <!-- 获取机构现金分布 -->
+    <select id="getAgencyCash" resultType="com.imbus.bank.dashboardModel.bo.AgencyCashBo">
+        SELECT cash FROM tb_agency
+    </select>
+
+
+</mapper>

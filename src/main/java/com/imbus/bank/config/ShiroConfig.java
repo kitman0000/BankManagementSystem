@@ -27,7 +27,7 @@ public class ShiroConfig {
 	@Bean
 	public Realm myShiroRealm() {
 		MyShiroRealm myShiroRealm = new MyShiroRealm();
-
+		//myShiroRealm.setCachingEnabled(false);
 		// 设置缓存管理
 		myShiroRealm.setCacheManager(new EhCacheManager());
 

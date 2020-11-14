@@ -1,13 +1,14 @@
 package com.imbus.bank.rateModule.dao;
 
-import com.imbus.bank.rateModule.bo.DepositRateBo;
+import com.imbus.bank.rateModule.bo.TimeRateBo;
 import com.imbus.bank.rateModule.bo.LoanRateBo;
-import com.imbus.bank.rateModule.entity.DepositRateEntity;
+import com.imbus.bank.rateModule.entity.TimeRateEntity;
 import com.imbus.bank.rateModule.entity.LoanRateEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -16,31 +17,39 @@ import java.util.List;
 @Mapper
 @Repository
 public interface RateDao {
-    List<DepositRateBo> getPersonalDepositRate();
+    List<TimeRateBo> getPersonalTimeRate();
 
-    List<DepositRateBo> getPublicDepositRate();
+    List<TimeRateBo> getPublicTimeRate();
 
     List<LoanRateBo> getPersonalLoanRate();
 
     List<LoanRateBo> getPublicLoanRate();
 
-    void addPersonalDepositRate(@Param("depositRateEntity") DepositRateEntity depositRateEntity);
+    void addPersonalTimeRate(@Param("timeRateEntity") TimeRateEntity timeRateEntity);
 
-    void editPersonalDepositRate(@Param("id") int id, @Param("depositRateEntity") DepositRateEntity depositRateEntity);
+    void editPersonalTimeRate(@Param("id") int id, @Param("timeRateEntity") TimeRateEntity timeRateEntity);
 
-    void deletePersonalDepositRate(int id);
+    void deletePersonalTimeRate(int id);
 
-    void addPublicDepositRate(@Param("depositRateEntity") DepositRateEntity depositRateEntity);
+    void addPublicTimeRate(@Param("timeRateEntity") TimeRateEntity timeRateEntity);
 
-    void editPublicDepositRate(@Param("id") int id, @Param("depositRateEntity") DepositRateEntity depositRateEntity);
+    void editPublicTimeRate(@Param("id") int id, @Param("timeRateEntity") TimeRateEntity timeRateEntity);
 
-    void deletePublicDepositRate(int id);
+    void deletePublicTimeRate(int id);
 
-    void addPersonalLoanRate(LoanRateEntity loanRateEntity);
+    void addPersonalLoanRate(@Param("loanRateEntity") LoanRateEntity loanRateEntity);
 
     void deletePersonalLoanRate(int id);
 
-    void addPublicLoanRate(LoanRateEntity loanRateEntity);
+    void addPublicLoanRate(@Param("loanRateEntity") LoanRateEntity loanRateEntity);
 
     void deletePublicLoanRate(int id);
+
+    BigDecimal getPersonalDepositRate();
+
+    void setPersonalDepositRate(BigDecimal rate);
+
+    BigDecimal getPublicDepositRate();
+
+    void setPublicDepositRate(BigDecimal rate);
 }

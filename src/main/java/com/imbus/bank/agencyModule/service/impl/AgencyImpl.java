@@ -50,8 +50,8 @@ public class AgencyImpl implements IAgency{
     @Override
     public AgencyDeleteType deleteAgency(int[] agencyID) {
         BigDecimal totalCash = agencyDao.getAgencyTotalCash(agencyID);
-        if(!totalCash.equals(new BigDecimal(0))){
-            // 机构中任有现金，拒绝删除
+        if(totalCash.compareTo(new BigDecimal(0)) !=  0){
+            // 机构中仍有现金，拒绝删除
             return AgencyDeleteType.AGENCY_DELETE_FAILED;
         }
         agencyDao.deleteAgency(agencyID);

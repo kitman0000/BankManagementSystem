@@ -37,9 +37,12 @@
         <where>
             <!-- 分页的条件 -->
             id Not In (Select * from (Select id From tb_netting
-            Limit #{startRow})as t) Limit #{rowsOnePage}
+            ORDER BY id DESC
+            Limit #{startRow})as t)
             <!-- 分页的条件结束-->
         </where>
+        ORDER BY id DESC
+        Limit #{rowsOnePage}
     </select>
 
     <!-- 获取轧账警告 -->

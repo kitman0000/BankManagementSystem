@@ -12,4 +12,6 @@ public interface IPublicAccount {
     CreateAccountResult createAccount(PublicAccountEntity accountEntity);
 
     CancelAccountResult cancelAccount(CancelAccountEntity cancelAccountEntity);
+
+    boolean isAllowCreateAccount();
 }

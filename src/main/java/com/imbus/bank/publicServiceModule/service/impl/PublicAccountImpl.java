@@ -2,14 +2,20 @@ package com.imbus.bank.publicServiceModule.service.impl;
 
 import com.imbus.bank.common.AgencyCommon;
 import com.imbus.bank.common.BankAccountCommon;
+import com.imbus.bank.common.UserCommon;
 import com.imbus.bank.componet.Entity.CancelAccountEntity;
 import com.imbus.bank.componet.type.CancelAccountResult;
 import com.imbus.bank.componet.type.CreateAccountResult;
 import com.imbus.bank.publicServiceModule.dao.PublicAccountDao;
 import com.imbus.bank.publicServiceModule.entity.PublicAccountEntity;
 import com.imbus.bank.publicServiceModule.service.IPublicAccount;
+import com.imbus.bank.roleModule.bo.PermissionBo;
+import com.imbus.bank.roleModule.dao.PermissionDao;
+import com.imbus.bank.roleModule.dao.RoleDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Created by zhong on 2020-8-11.
@@ -21,6 +27,12 @@ public class PublicAccountImpl implements IPublicAccount{
 
     @Autowired
     private PublicAccountDao publicAccountDao;
+
+    @Autowired
+    private RoleDao roleDao;
+
+    @Autowired
+    private PermissionDao permissionDao;
 
     @Override
     public CreateAccountResult createAccount(PublicAccountEntity accountEntity) {
@@ -60,5 +72,21 @@ public class PublicAccountImpl implements IPublicAccount{
         }
         publicAccountDao.cancelAccount(cancelAccountEntity.getAccountId());
         return CancelAccountResult.CANCEL_ACCOUNT_SUCCESS;
+    }
+
+    @Override
+    public boolean isAllowCreateAccount(){
+        int userID = UserCommon.getUserBo().getUserID();
+        int roleID = roleDao.getUserRole(userID).getRoleID();
+
+        List<PermissionBo> permissionList = permissionDao.getRolePermission(roleID);
+
+        for (PermissionBo permission:permissionList){
+            if(permission.getPermissionName().equals("public.account.create")){
+                return true;
+            }
+        }
+
+        return false;
     }
 }

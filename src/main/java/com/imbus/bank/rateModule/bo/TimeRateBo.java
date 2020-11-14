@@ -8,7 +8,7 @@ import java.math.BigDecimal;
  * Created by zhong on 2020-9-7.
  */
 @Data
-public class DepositRateBo {
+public class TimeRateBo {
     private int id;
 
     private int month;

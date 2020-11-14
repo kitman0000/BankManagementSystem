@@ -4,6 +4,7 @@ import com.imbus.bank.nettingModule.bo.NettingBo;
 import com.imbus.bank.nettingModule.bo.NettingWarningBo;
 import com.imbus.bank.nettingModule.service.INetting;
 import io.swagger.annotations.Api;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,16 +23,19 @@ public class NettingCl {
     @Autowired
     private INetting netting;
 
+    @RequiresPermissions("netting:search")
     @RequestMapping(value = "/api/netting/page",method = RequestMethod.GET)
     public int getNettingPage(){
         return netting.getNettingPage();
     }
 
+    @RequiresPermissions("netting:search")
     @RequestMapping(value = "/api/netting/netting",method = RequestMethod.GET)
     public List<NettingBo> getNettingList(int page){
         return netting.getNettingList(page);
     }
 
+    @RequiresPermissions("netting:search")
     @RequestMapping(value = "/api/netting/warning",method = RequestMethod.GET)
     public List<NettingWarningBo> getNettingWarning(String nettingSign){
         return netting.getNettingWarning(nettingSign);

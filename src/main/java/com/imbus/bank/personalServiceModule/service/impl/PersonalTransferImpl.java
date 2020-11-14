@@ -1,22 +1,22 @@
-package com.imbus.bank.publicServiceModule.service.impl;
+package com.imbus.bank.personalServiceModule.service.impl;
 
 import com.imbus.bank.common.BankAccountCommon;
 import com.imbus.bank.common.BookCommon;
 import com.imbus.bank.componet.Entity.TransferEntity;
 import com.imbus.bank.componet.type.TransferResult;
 import com.imbus.bank.personalServiceModule.dao.PersonalAccountDao;
+import com.imbus.bank.personalServiceModule.service.IPersonalTransfer;
 import com.imbus.bank.publicServiceModule.dao.PublicAccountDao;
-import com.imbus.bank.publicServiceModule.service.IPublicTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
 /**
- * Created by zhong on 2020-8-25.
+ * Created by zhong on 2020-11-12.
  */
 @Service
-public class PublicTransferImpl implements IPublicTransfer {
+public class PersonalTransferImpl implements IPersonalTransfer {
     @Autowired
     private BankAccountCommon bankAccountCommon;
 
@@ -39,12 +39,12 @@ public class PublicTransferImpl implements IPublicTransfer {
         String targetAccountID = transferEntity.getTargetAccount();
 
         // 检查密码
-        if(publicAccountDao.checkAccountPwd(accountID,pwd) != 1){
+        if(personalAccountDao.checkAccountPwd(accountID,pwd) != 1){
             return TransferResult.TRANSFER_FAILED;
         }
 
         // 是否有足够余额
-        if(publicAccountDao.getAccountBalance(accountID).compareTo(amount) == -1){
+        if(personalAccountDao.getAccountBalance(accountID).compareTo(amount) == -1){
             return TransferResult.NO_ENOUGH_BALANCE;
         }
 
@@ -56,7 +56,7 @@ public class PublicTransferImpl implements IPublicTransfer {
                     return TransferResult.TARGET_NOT_EXIST;
                 }
                 // 转出方扣除余额
-                publicAccountDao.removeAccountBalance(accountID,amount);
+                personalAccountDao.removeAccountBalance(accountID,amount);
                 // 资产端：减少
                 bookCommon.addFundBill(amount.negate(),accountID,"转出("+targetAccountID+")",1);
                 // 负债端：减少
@@ -77,7 +77,7 @@ public class PublicTransferImpl implements IPublicTransfer {
                     return TransferResult.TARGET_NOT_EXIST;
                 }
                 // 转出方扣除余额
-                publicAccountDao.removeAccountBalance(accountID,amount);
+                personalAccountDao.removeAccountBalance(accountID,amount);
                 // 资产端：减少
                 bookCommon.addFundBill(amount.negate(),accountID,"转出("+targetAccountID+")",1);
                 // 负债端：减少
@@ -94,7 +94,7 @@ public class PublicTransferImpl implements IPublicTransfer {
             // 跨行转账
             case OTHER_BANK:
                 // 转出方扣除余额
-                publicAccountDao.removeAccountBalance(accountID,amount);
+                personalAccountDao.removeAccountBalance(accountID,amount);
                 // 资产端：减少
                 bookCommon.addFundBill(amount.negate(),accountID,"转出("+targetAccountID+")",1);
                 // 负债端：减少
@@ -103,5 +103,4 @@ public class PublicTransferImpl implements IPublicTransfer {
         }
         return TransferResult.TRANSFER_SUCCESS;
     }
-
 }

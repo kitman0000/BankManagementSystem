@@ -41,9 +41,9 @@
     </delete>
 
     <select id="getAgencyTrunk" resultType="com.imbus.bank.trunkModule.bo.TrunkBo">
-        SELECT * FROM tb_trunk
+        SELECT tb_trunk.*,tb_user.username as tellerName FROM tb_trunk LEFT JOIN tb_user ON tellerID = userID
         <where>
-            agencyID = #{agencyID}
+            tb_trunk.agencyID = #{agencyID}
         </where>
     </select>
 

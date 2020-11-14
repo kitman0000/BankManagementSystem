@@ -1,12 +1,17 @@
 package com.imbus.bank.roleModule.service.impl;
 
+import com.imbus.bank.common.AuthFilter;
+import com.imbus.bank.config.MyShiroRealm;
+import com.imbus.bank.config.ShiroConfig;
 import com.imbus.bank.roleModule.bo.PermissionBo;
 import com.imbus.bank.roleModule.bo.RoleBo;
 import com.imbus.bank.roleModule.dao.PermissionDao;
 import com.imbus.bank.roleModule.dao.RoleDao;
 import com.imbus.bank.roleModule.service.IRole;
 import com.imbus.bank.roleModule.type.RoleResult;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.mgt.RealmSecurityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +28,7 @@ public class RoleImpl implements IRole{
 
     @Autowired
     PermissionDao permissionDao;
+
 
     /**
      * 获取所有角色
@@ -74,6 +80,11 @@ public class RoleImpl implements IRole{
             return RoleResult.PERMISSION_HAS_EXIST.toString();
 
         roleDao.addRolePermission(roleID,permissionID);
+
+        RealmSecurityManager rsm = (RealmSecurityManager) SecurityUtils.getSecurityManager();
+        MyShiroRealm realm = (MyShiroRealm)rsm.getRealms().iterator().next();
+        realm.clearCachedAuthorization();
+
         return RoleResult.PERMISSION_ADD_SUCCESS.toString();
     }
 

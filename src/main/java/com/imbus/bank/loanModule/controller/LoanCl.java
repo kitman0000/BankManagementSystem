@@ -7,6 +7,7 @@ import com.imbus.bank.loanModule.type.LoanResult;
 import com.imbus.bank.loanModule.type.RepaymentResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,11 +26,13 @@ public class LoanCl {
 
     @ApiOperation(value = "申请贷款")
     @Transactional
+    @RequiresPermissions(value = "loan:apply")
     @RequestMapping(value = "/api/loan/request",method = RequestMethod.POST)
     public LoanResult requestLoan(LoanEntity loanEntity){
         return loan.requestLoan(loanEntity);
     }
 
+    @RequiresPermissions("loan:handleLoan")
     @ApiOperation(value = "处理贷款")
     @Transactional
     @RequestMapping(value = "/api/loan/handleLoanApply",method = RequestMethod.POST)

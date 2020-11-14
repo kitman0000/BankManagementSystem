@@ -30,7 +30,6 @@ public class UserCl {
     @RequestMapping(value = "/api/user/userPicture",method = RequestMethod.GET)
     public String getUserPicture(){return  user.getUserPicture();}
 
-    @RequiresPermissions("user:*")
     @RequestMapping(value = "/api/user/user",method = RequestMethod.GET)
     public List<UserBo> getUser(String username,int status,int page){
         return user.getUser(username,status,page);

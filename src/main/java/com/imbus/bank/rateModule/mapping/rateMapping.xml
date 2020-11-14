@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.imbus.bank.rateModule.dao.RateDao">
-    <insert id="addPersonalDepositRate">
+    <insert id="addPersonalTimeRate">
         INSERT INTO tb_personal_rate
         <set>
-            month = #{depositRateEntity.month},
-            rate = #{depositRateEntity.rate}
+            month = #{timeRateEntity.month},
+            rate = #{timeRateEntity.rate}
         </set>
     </insert>
 
-    <insert id="addPublicDepositRate">
+    <insert id="addPublicTimeRate">
         INSERT INTO tb_public_rate
         <set>
-            month = #{depositRateEntity.month},
-            rate = #{depositRateEntity.rate}
+            month = #{timeRateEntity.month},
+            rate = #{timeRateEntity.rate}
         </set>
     </insert>
 
@@ -35,36 +35,36 @@
         </set>
     </insert>
 
-    <update id="editPersonalDepositRate">
+    <update id="editPersonalTimeRate">
         UPDATE tb_personal_rate
         <set>
-            month = #{depositRateEntity.month},
-            rate = #{depositRateEntity.rate}
+            month = #{timeRateEntity.month},
+            rate = #{timeRateEntity.rate}
         </set>
         <where>
             id = #{id}
         </where>
     </update>
 
-    <update id="editPublicDepositRate">
+    <update id="editPublicTimeRate">
         UPDATE tb_public_rate
         <set>
-            month = #{depositRateEntity.month},
-            rate = #{depositRateEntity.rate}
+            month = #{timeRateEntity.month},
+            rate = #{timeRateEntity.rate}
         </set>
         <where>
             id = #{id}
         </where>
     </update>
 
-    <delete id="deletePersonalDepositRate">
+    <delete id="deletePersonalTimeRate">
         DELETE FROM tb_personal_rate
         <where>
             id = #{id}
         </where>
     </delete>
 
-    <delete id="deletePublicDepositRate">
+    <delete id="deletePublicTimeRate">
         DELETE FROM tb_public_rate
         <where>
             id = #{id}
@@ -85,11 +85,11 @@
         </where>
     </delete>
 
-    <select id="getPersonalDepositRate" resultType="com.imbus.bank.rateModule.bo.DepositRateBo">
+    <select id="getPersonalTimeRate" resultType="com.imbus.bank.rateModule.bo.TimeRateBo">
         SELECT * FROM tb_personal_rate ORDER BY `month` desc
     </select>
 
-    <select id="getPublicDepositRate" resultType="com.imbus.bank.rateModule.bo.DepositRateBo">
+    <select id="getPublicTimeRate" resultType="com.imbus.bank.rateModule.bo.TimeRateBo">
         SELECT * FROM tb_public_rate ORDER BY `month` desc
     </select>
 
@@ -100,5 +100,27 @@
     <select id="getPublicLoanRate" resultType="com.imbus.bank.rateModule.bo.LoanRateBo">
         SELECT * FROM tb_loan_public_rate ORDER BY startMonth desc
     </select>
+
+    <select id="getPersonalDepositRate" resultType="java.math.BigDecimal">
+        SELECT personalDemandRate FROM tb_bank_config;
+    </select>
+
+    <select id="getPublicDepositRate" resultType="java.math.BigDecimal">
+        SELECT publicDemandRate FROM tb_bank_config;
+    </select>
+
+    <update id="setPersonalDepositRate">
+        UPDATE tb_bank_config
+        <set>
+            personalDemandRate = #{rate}
+        </set>
+    </update>
+
+    <update id="setPublicDepositRate">
+        UPDATE tb_bank_config
+        <set>
+            publicDemandRate = #{rate}
+        </set>
+    </update>
 
 </mapper>

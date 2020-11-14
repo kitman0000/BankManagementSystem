@@ -8,6 +8,7 @@ import com.imbus.bank.roleModule.dao.PermissionDao;
 import com.imbus.bank.userModule.bo.UserBo;
 import com.imbus.bank.userModule.dao.AccountDao;
 import com.imbus.bank.userModule.dao.UserDao;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -89,6 +90,11 @@ public class MyShiroRealm extends AuthorizingRealm {
 			simpleAuthorizationInfo.addStringPermission(permissionBo.getPermissionName());
 		}
 		return simpleAuthorizationInfo;
+	}
+
+	public void clearCachedAuthorization(){
+		//清空权限缓存
+		clearCachedAuthorizationInfo(SecurityUtils.getSubject().getPrincipals());
 	}
 
 }

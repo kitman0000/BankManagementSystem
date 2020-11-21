@@ -21,8 +21,17 @@
             <if test="searchEntity.showDebt == true">
                 OR tag = 2
             </if>
+
             )
+
+            <!-- 根据筛选条件，决定是否仅显示某一个账号的信息,如果是，那只显示借贷端 -->
+            <if test="searchEntity.accountID != ''">
+                AND target = #{searchEntity.accountID}
+                AND tag = 2
+            </if>
         </where>
+
+        ORDER BY transactDatetime desc
     </select>
 
     <!-- 获取现金账单 -->
@@ -34,6 +43,8 @@
             transactDatetime >= #{searchEntity.startTime}
             AND
             transactDatetime &lt; #{searchEntity.endTime}
+
         </where>
+        ORDER BY transactDatetime desc
     </select>
 </mapper>

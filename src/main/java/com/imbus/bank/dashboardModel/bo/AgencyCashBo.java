@@ -10,4 +10,6 @@ import java.math.BigDecimal;
 @Data
 public class AgencyCashBo {
     private BigDecimal cash;
+
+    private String agencyName;
 }

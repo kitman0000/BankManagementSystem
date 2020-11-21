@@ -48,6 +48,7 @@
         <mapper resource="com/imbus/bank/nettingModule/mapping/nettingMapping.xml"/>
         <mapper resource="com/imbus/bank/logModule/mapping/logMapping.xml"/>
         <mapper resource="com/imbus/bank/announcementModule/mapping/AnnouncementMapping.xml"/>
+        <mapper resource="com/imbus/bank/dashboardModel/mapping/dashboardMapping.xml"/>
     </mappers>
 
 </configuration>

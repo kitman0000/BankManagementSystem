@@ -9,6 +9,8 @@ import java.util.Date;
  */
 @Data
 public class TransactionSearchEntity {
+    private String accountID;
+
     private boolean showCash;
 
     private boolean showAssets;

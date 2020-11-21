@@ -11,4 +11,6 @@ import java.math.BigDecimal;
 @Data
 public class BillCountBo {
     private BigDecimal netCount;
+
+    private String billDate;
 }

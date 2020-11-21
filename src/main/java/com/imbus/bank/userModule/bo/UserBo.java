@@ -14,4 +14,5 @@ public class UserBo {
     private String nickName;
     private int status;
     private int role;
+    private String roleName;
 }

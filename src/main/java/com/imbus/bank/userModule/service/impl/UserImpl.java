@@ -20,12 +20,10 @@ import java.util.List;
 @Service
 public class UserImpl implements IUser{
 
-    //用户名 SecurityUtils.getSubject().getPrincipal().toString();
-
     @Autowired
     private UserDao userDao;
 
-    private final int ROWS_ONE_PAGE = 5;
+    private final int ROWS_ONE_PAGE = 10;
 
     /**
      * 获取页面数量

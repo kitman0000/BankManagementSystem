@@ -17,7 +17,7 @@
 
     <!-- 获取某页用户信息 -->
     <select id="getUser" resultType="com.imbus.bank.userModule.bo.UserBo">
-        SELECT userID,username,nickName,status,role,pictureUrl FROM tb_user
+        SELECT userID,username,nickName,status,role,pictureUrl,roleName FROM tb_user,tb_role
 
         <where>
             <if test="username != ''">
@@ -28,17 +28,22 @@
                 status = #{status}
             </if>
             AND userID Not In (Select * from (Select userID From tb_user
+
+            <where>
+                <if test="username != ''">
+                    username LIKE '%${username}%'
+                </if>
+                <if test="status != -1">
+                    AND
+                    status = #{status}
+                </if>
+            </where>
+
         </where>
-        <where>
-            <if test="username != ''">
-                username LIKE '%${username}%'
-            </if>
-            <if test="status != -1">
-                AND
-                status = #{status}
-            </if>
-        </where>
-        Limit #{startRow})as t) Limit #{rowsOnePage}
+
+        Limit #{startRow})as t)
+        AND tb_user.role = tb_role.id
+        Limit #{rowsOnePage}
 
     </select>
 

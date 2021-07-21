@@ -29,23 +29,40 @@ Vue, ElementUI
 Following is the list of the funcsions.
 
 • Teller management
+
 • Menu management
+
 • Interface swagger documentation
+
 • Log query
+
 • Mail management
+
 • Announcement management
+
 • Excel download: custom sql export
+
 • Dictionary management: maintenance of some constant dictionaries
+
 • Personal information modification
+
 • Change Password
+
 • Profile modification
+
 • Institutional management
+
 • Tail box management
+
 • Personal Business
+
 • Corporate business
 • Netting
+
 • Transaction flow query
+
 • Customer Enquiry
+
 • Cash management
 
 Following is what we made it different from other projects and also special functions that must be claimed.

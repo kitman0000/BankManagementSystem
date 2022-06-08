@@ -14,12 +14,12 @@
 
     <!-- 获取近20日现金流水账数额 -->
     <select id="getBillAmount" resultType="com.imbus.bank.dashboardModel.bo.BillAmountBo">
-        SELECT amount,netDate as billDate FROM tb_netting ORDER BY id DESC LIMIT 20
+        SELECT * FROM ( (SELECT amount,netDate as billDate FROM tb_netting ORDER BY id DESC LIMIT 20) as t) ORDER BY t.billDate asc
     </select>
 
     <!-- 获取近20日现金流水账数量 -->
     <select id="getBillCount" resultType="com.imbus.bank.dashboardModel.bo.BillCountBo">
-        SELECT netCount,netDate as billDate FROM tb_netting ORDER BY id DESC LIMIT 20
+        SELECT * FROM ( (SELECT netCount,netDate as billDate FROM tb_netting ORDER BY id DESC LIMIT 20) as t) ORDER BY t.billDate asc
     </select>
 
     <!-- 获取机构现金分布 -->

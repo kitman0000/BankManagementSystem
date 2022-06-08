@@ -3,7 +3,7 @@
 <mapper namespace="com.imbus.bank.userModule.dao.AccountDao">
 
     <select id="findUserIDByName" resultType="com.imbus.bank.userModule.bo.UserBo">
-        SELECT * FROM bankmanagement_db.tb_user
+        SELECT * FROM tb_user
         <where>username = #{username}</where>
     </select>
 

@@ -104,7 +104,6 @@ public class UserImpl implements IUser{
 
     /**
      * 获取用户头像
-     * @param userID 用户ID
      * @return 头像地址
      */
     @Override

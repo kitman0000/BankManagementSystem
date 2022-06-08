@@ -49,7 +49,9 @@
 
     <!-- 获取某用户详细信息 -->
     <select id="getUserDetail" resultType="com.imbus.bank.userModule.bo.UserDetailBo">
-        SELECT tb_user.*,name as agencyName FROM tb_user
+        SELECT userID,username,nickName,status,role,email,phoneNumber,sex,birthday,avatarUrl,createTime,lastUpdateTime,
+        agencyID,pictureUrl,name as agencyName,tb_agency.id as agencyID FROM tb_user
+
         LEFT JOIN tb_agency ON agencyID = tb_agency.id
         <where>
             userID = #{userID}

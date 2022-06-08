@@ -32,4 +32,6 @@ public class UserDetailBo {
     private String avatarUrl = "";
 
     private String agencyName;
+
+    private int agencyID;
 }

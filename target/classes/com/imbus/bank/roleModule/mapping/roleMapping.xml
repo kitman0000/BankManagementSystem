@@ -29,7 +29,7 @@
 
     <!-- 检查某角色是否拥有某权限-->
     <select id="checkRolePermission" resultType="java.lang.Integer">
-        SELECT COUNT(id) FROM tb_role_Permission
+        SELECT COUNT(id) FROM tb_role_permission
         <where>
             roleID = #{roleID}
             AND
@@ -39,7 +39,7 @@
 
     <!-- 为角色添加权限 -->
     <insert id="addRolePermission">
-        INSERT INTO tb_role_Permission
+        INSERT INTO tb_role_permission
         <set>
             roleID = #{roleID},
             permissionID = #{permissionID}
@@ -48,7 +48,7 @@
 
     <!-- 为角色删除权限 -->
     <delete id="deleteRolePermission">
-        DELETE FROM tb_role_Permission
+        DELETE FROM tb_role_permission
         <where>
             roleID = #{roleID}
             AND
